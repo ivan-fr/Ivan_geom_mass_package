@@ -534,122 +534,115 @@ def fig_sphere_multishell():
 
 # ---------- 8) Astrophysical validation with real data ----------
 def fig_astrophysical_validation():
-    """Validate method using real astrophysical object parameters"""
-    # Real data: black holes and neutron stars with known masses
-    objects_data = {
-        'Sgr A*': {'M_solar': 4.15e6, 'R_obs': 1000, 'type': 'SMBH', 'a_est': 0.6},
-        'M87*': {'M_solar': 6.5e9, 'R_obs': 2000, 'type': 'SMBH', 'a_est': 0.9},
-        'Cygnus X-1': {'M_solar': 21.2, 'R_obs': 100, 'type': 'BH', 'a_est': 0.7},
-        'PSR J0737-3039': {'M_solar': 1.34, 'R_obs': 15, 'type': 'NS', 'a_est': 0.0},
-        'PSR J1614-2230': {'M_solar': 1.97, 'R_obs': 12, 'type': 'NS', 'a_est': 0.0},
-    }
-    
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 10))
-    
-    # Extract data
-    names = list(objects_data.keys())
-    M_true = [objects_data[name]['M_solar'] for name in names]
-    R_obs = [objects_data[name]['R_obs'] for name in names] 
-    a_vals = [objects_data[name]['a_est'] for name in names]
-    types = [objects_data[name]['type'] for name in names]
-    
-    # Convert to geometric units (c=G=1) - simplified scaling
-    M_geom = np.array(M_true) / np.array(M_true)[0]  # Normalize by first mass  
-    R_geom = np.array(R_obs)  # Keep original observation radii
-    
-    # Calculate Brown-York estimates
-    M_BY_est = []
-    M_BY_err = []
-    
-    def kerr_brown_york_estimate(R, a, M):
-        """Simplified Kerr estimation for validation"""
-        # Avoid numerical issues with small R
-        if R < 3*M:  # Near horizon
-            return M * 0.8  # Approximate value
-        
-        # Schwarzschild base
-        discriminant = 1 - 2*M/R
-        if discriminant <= 0:
-            return M * 0.5  # Fallback
-            
-        E_schwarzschild = R * (1 - np.sqrt(discriminant))
-        # Spin correction based on rigorous calculation
-        spin_correction = 1 + 0.3 * a**2 * (M/R)
-        return E_schwarzschild * spin_correction
-    
-    for i, (name, M, R, a) in enumerate(zip(names, M_geom, R_geom, a_vals)):
-        if types[i] in ['BH', 'SMBH']:
-            # Use improved Kerr model
-            E_BY = kerr_brown_york_estimate(R, a, M)
+    """Validation using simple, unit-consistent benchmarks.
+
+    We compare Brown–York mass E_BY(R) on test spheres against known compact objects.
+    For black holes (BH/SMBH), we evaluate at R = 10 M (in geometric units G=c=1).
+    For neutron stars (NS), we evaluate at their canonical radius in km converted
+    to geometric units via 1 M_sun ≈ 1.476625 km.
+
+    This removes any ad‑hoc spin correction and keeps apples-to-apples units.
+    """
+    # Constants for geometric conversion (km per solar mass in G=c=1 units)
+    KM_PER_MSUN = 1.476625  # GM_sun/c^2 in km
+
+    # Canonical objects (mass in solar masses). NS radii in km.
+    objects = [
+        # name,        type,   M_solar,  R_km (None for BH where we use R=10M)
+        ("Sgr A*",     "SMBH", 4.15e6, None),
+        ("M87*",       "SMBH", 6.5e9,  None),
+        ("Cygnus X-1", "BH",   21.2,   None),
+        ("PSR J0737-3039", "NS", 1.34,  15.0),
+        ("PSR J1614-2230", "NS", 1.97,  12.0),
+    ]
+
+    names = [o[0] for o in objects]
+    types = [o[1] for o in objects]
+    M_solar = np.array([o[2] for o in objects], dtype=float)
+
+    # Radii in geometric units (same units as M): for BH, use R=10M; for NS, convert km -> Msun units
+    R_over_M = []
+    for (_, typ, M, R_km) in objects:
+        if typ in ("BH", "SMBH") or (R_km is None):
+            R_over_M.append(10.0)  # evaluate at 10M
         else:
-            # Neutron star: use TOV-like calculation
-            E_BY = R * (1 - np.sqrt(1 - 2*M/R))  # Simplified
-        
-        M_BY_est.append(E_BY)
-        # Estimate error from method uncertainty (~10-20%)
-        M_BY_err.append(0.15 * E_BY)
-    
-    
-    M_BY_est = np.array(M_BY_est)
-    M_BY_err = np.array(M_BY_err)
-    
-    # Plot 1: Mass comparison
-    colors_type = {'SMBH': 'red', 'BH': 'blue', 'NS': 'green'}
-    for i, obj_type in enumerate(['SMBH', 'BH', 'NS']):
-        mask = np.array(types) == obj_type
-        if np.any(mask):
-            M_true_masked = np.array(M_true)[mask]
-            M_BY_masked = M_BY_est[mask] 
-            M_BY_err_masked = M_BY_err[mask]
-            
-            ax1.errorbar(M_true_masked, M_BY_masked, yerr=M_BY_err_masked,
-                        fmt='o', color=colors_type[obj_type], label=obj_type, 
-                        markersize=8, capsize=4)
-    
-    ax1.plot([min(M_true), max(M_true)], [min(M_true), max(M_true)], 'k--', alpha=0.5)
-    ax1.set_xlabel('Masse vraie ($M_☉$)')
-    ax1.set_ylabel('Masse estimée BY ($M_☉$)')
-    ax1.set_title('Validation astrophysique')
-    ax1.set_xscale('log')
-    ax1.set_yscale('log')
+            # Convert NS radius (km) to geometric mass units: R / (KM_PER_MSUN * M_solar)
+            R_over_M.append( R_km / (KM_PER_MSUN * M) )
+
+    R_over_M = np.array(R_over_M, dtype=float)
+
+    # Brown–York mass in Schwarzschild exterior: E_BY(R) = R * (1 - sqrt(1 - 2M/R))
+    # where M and R are in the same geometric units. Here we use dimensionless form with M=1 and R=R/M.
+    def E_BY_over_M(R_over_M):
+        R = R_over_M
+        inside = 1.0 - 2.0 / R
+        # clip to avoid small negatives from numeric issues
+        inside = np.clip(inside, 1e-12, None)
+        return R * (1.0 - np.sqrt(inside))
+
+    E_over_M = E_BY_over_M(R_over_M)
+    M_est = E_over_M * M_solar  # scale back to solar masses
+    rel_err = (M_est - M_solar) / M_solar * 100.0
+
+    # ---- Plots ----
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    ax1, ax2, ax3, ax4 = axes.ravel()
+
+    # 1) Estimated vs true mass
+    ax1.scatter(M_solar, M_est, s=80, alpha=0.8, label="Objets compacts")
+    maxm = max(M_solar.max(), M_est.max())
+    minm = max(min(M_solar.min(), M_est.min()), 1e-6)
+    ax1.plot([minm, maxm], [minm, maxm], linestyle='--', linewidth=1)
+    ax1.set_xlim(minm, maxm)
+    ax1.set_ylim(minm, maxm)
+    ax1.set_xlabel('Masse vraie (M$_\odot$)')
+    ax1.set_ylabel('Masse estimée (M$_\odot$)')
+    if np.all(M_solar > 0) and np.all(M_est > 0):
+        ax1.set_xscale('log')
+        ax1.set_yscale('log')
+    ax1.set_title('Validation astrophysique: $E_{BY}(R)$ vs $M$')
+    for i, name in enumerate(names):
+        ax1.annotate(name, (M_solar[i], M_est[i]), fontsize=8, xytext=(5,5), textcoords='offset points')
     ax1.grid(True, alpha=0.3)
-    ax1.legend()
-    
-    # Plot 2: Relative error vs mass
-    rel_error = np.abs(M_BY_est/np.array(M_true) - 1) * 100
-    for i, obj_type in enumerate(['SMBH', 'BH', 'NS']):
-        mask = np.array(types) == obj_type
-        if np.any(mask):
-            ax2.scatter(np.array(M_true)[mask], rel_error[mask], 
-                       c=colors_type[obj_type], s=80, label=obj_type, alpha=0.7)
-    
-    ax2.set_xlabel('Masse vraie ($M_☉$)')
+
+    # 2) Relative error by object
+    x = np.arange(len(names))
+    ax2.bar(x, rel_err, alpha=0.8)
+    ax2.set_xticks(x, names, rotation=30, ha='right')
     ax2.set_ylabel('Erreur relative (%)')
-    ax2.set_title('Précision vs masse')
-    ax2.set_xscale('log')
-    ax2.grid(True, alpha=0.3)
-    ax2.legend()
-    
-    # Plot 3: Error vs observation radius
-    ax3.scatter(R_obs, rel_error, c=[colors_type[t] for t in types], s=80, alpha=0.7)
-    ax3.set_xlabel('Rayon d\'observation (multiples de $R_s$)')
+    ax2.set_title('Erreur relative sur la masse (évaluée à R/M indiqué)')
+    for i, e in enumerate(rel_err):
+        ax2.text(i, e, f"{e:+.1f}%", ha='center', va='bottom' if e>=0 else 'top', fontsize=8)
+    ax2.grid(True, axis='y', alpha=0.3)
+
+    # 3) BH sanity curve: error vs R/M for a representative BH
+    Rscan = np.linspace(3.1, 50, 500)  # R/M from just above 3 to 50
+    err_curve = (E_BY_over_M(Rscan) - 1.0) * 100.0
+    ax3.plot(Rscan, err_curve, label='Erreur relative (%)')
+    ax3.axvline(10.0, linestyle='--', linewidth=1)
+    ax3.set_xlabel('$R/M$')
     ax3.set_ylabel('Erreur relative (%)')
-    ax3.set_title('Précision vs rayon d\'observation')
+    ax3.set_title('Convergence pour trou noir (Schwarzschild)')
     ax3.grid(True, alpha=0.3)
-    
-    # Plot 4: Spin parameter effect
-    bh_mask = np.array([t in ['BH', 'SMBH'] for t in types])
-    ax4.scatter(np.array(a_vals)[bh_mask], rel_error[bh_mask], 
-               c='purple', s=80, alpha=0.7, label='Trous noirs')
-    ax4.set_xlabel('Paramètre de spin estimé $a/M$')
+    ax3.legend()
+
+    # 4) NS sensitivity: error vs assumed radius for a 1.4 Msun NS
+    M_ns = 1.4
+    Rkm_scan = np.linspace(9, 16, 200)  # km
+    R_over_M_ns = Rkm_scan / (KM_PER_MSUN * M_ns)
+    err_ns = (E_BY_over_M(R_over_M_ns) - 1.0) * 100.0
+    ax4.plot(Rkm_scan, err_ns, label='Erreur relative (%)')
+    ax4.set_xlabel('Rayon NS supposé (km)')
     ax4.set_ylabel('Erreur relative (%)')
-    ax4.set_title('Effet du spin sur la précision')
+    ax4.set_title('Sensibilité au rayon (NS 1.4 M$_\odot$)')
     ax4.grid(True, alpha=0.3)
     ax4.legend()
-    
+
     plt.tight_layout()
     savefig("fig_astrophysical_validation.pdf")
 
+# ----------
+# ----------
 # ---------- 9) Theoretical derivation validation ---------- 
 def fig_theoretical_comparison():
     """Compare our results with analytical Brown-York predictions"""
