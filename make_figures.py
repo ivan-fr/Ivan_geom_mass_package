@@ -381,19 +381,26 @@ def fig_kerr_multiradius(M=1.0):
         abs_err = np.array(abs_err)
         abs_err_std = np.array(abs_err_std)
         
-        # Plot with error bars for middle radius
-        if i == 1:  # R=200M
+        # Plot all curves clearly with different styles
+        if i == 1:  # R=200M with error bars
             plt.errorbar(a_vals, abs_err, yerr=abs_err_std, 
                         color=colors[i], linestyle=linestyles[i], 
-                        marker='o', markersize=4, label=labels[i], capsize=3)
+                        marker='o', markersize=6, label=labels[i], capsize=3, linewidth=2)
         else:
+            # Plot other curves without error bars but clearly visible
             plt.semilogy(a_vals, abs_err, color=colors[i], linestyle=linestyles[i], 
-                        marker='s' if i==0 else '^', markersize=4, label=labels[i])
+                        marker='s' if i==0 else '^', markersize=6, label=labels[i], 
+                        linewidth=2, markeredgecolor='black', markeredgewidth=0.5)
     
-    # Add theoretical 1/R scaling line
+    # Add theoretical 1/R scaling lines for reference
     a_theory = np.linspace(0.1, 0.9, 5)
-    theory_100 = M/100 * (1 + 0.2*a_theory**2)  # Expected scaling
-    plt.semilogy(a_theory, theory_100, 'k:', alpha=0.7, label='Théorie $\\sim M/R$')
+    for i, R in enumerate(R_vals):
+        theory_line = M/R * (1 + 0.2*a_theory**2)  # Expected scaling for each radius
+        plt.semilogy(a_theory, theory_line, ':', color=colors[i], alpha=0.4, linewidth=1)
+    
+    # Add general theory label
+    plt.semilogy(a_theory, M/200 * (1 + 0.2*a_theory**2), 'k:', alpha=0.8, 
+                linewidth=2, label='Théorie $\\sim M/R$')
     
     plt.xlabel("Paramètre de spin $a/M$")
     plt.ylabel("Erreur absolue $|E_{\\rm BY}(R)-M|$")
