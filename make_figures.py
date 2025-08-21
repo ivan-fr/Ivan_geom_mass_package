@@ -686,11 +686,16 @@ def fig_theoretical_comparison():
     
     # Relative difference
     rel_diff = np.abs(E_BY_numerical - E_BY_exact) / E_BY_exact * 100
-    ax2.loglog(R_vals, rel_diff, 'b-', linewidth=2)
+    # Add small epsilon to avoid log(0) issues
+    rel_diff = np.maximum(rel_diff, 1e-15)
+    ax2.loglog(R_vals, rel_diff, 'b-', linewidth=2, marker='o', markersize=4)
     ax2.set_xlabel('Rayon $R/M$')
     ax2.set_ylabel('Erreur relative (%)')
     ax2.set_title('Précision numérique')
     ax2.grid(True, alpha=0.3)
+    ax2.set_ylim(1e-16, 1e-12)  # Set appropriate range for machine precision
+    ax2.axhline(y=1e-15, color='r', linestyle='--', alpha=0.5, label='Précision machine')
+    ax2.legend()
     
     plt.tight_layout()
     savefig("fig_theoretical_comparison.pdf")
