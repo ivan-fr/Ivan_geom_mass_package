@@ -5,6 +5,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# ---- Global plotting style for better visibility ----
+plt.rcParams['lines.linewidth'] = 2.2
+plt.rcParams['axes.labelsize'] = 12
+plt.rcParams['axes.titlesize'] = 13
+plt.rcParams['legend.fontsize'] = 10
+plt.rcParams['grid.alpha'] = 0.35
+plt.rcParams['axes.formatter.useoffset'] = False
+
 def savefig(path):
     plt.tight_layout()
     plt.savefig(path, dpi=300, bbox_inches="tight")
@@ -16,7 +24,7 @@ def fig_sphere_convergence(M=1.0):
     M_by = R_vals * (1 - np.sqrt(1 - 2*M/R_vals))
     rel_err = np.abs(M_by - M)/M
     plt.figure(figsize=(6.2, 4.2))
-    plt.loglog(R_vals, rel_err, linestyle='-')
+    plt.loglog(R_vals, rel_err, marker='o', markersize=4, linestyle='-')
     plt.xlabel("Rayon $R$")
     plt.ylabel("Erreur relative $|E_{\\rm BY}(R)-M|/M$")
     plt.title("Convergence Brown--York \\to ADM (Schwarzschild, $M=1$)")
@@ -36,7 +44,7 @@ def fig_ellipsoids_smooth(a_base=15.0, M=1.0):
         errs = np.array([rel_err_proxy(q, beta=beta) for q in qs])
         plt.plot(qs, errs, label=f"$\\beta={beta}$")
     plt.xlabel("Rapport d'aspect $b/a$")
-    plt.ylabel("Erreur absolue $|M_{\\rm est}-1|$")
+    plt.ylabel("Erreur relative $|M_{\\rm est}-1|/M$")
     plt.title("Ellipsoïdes : stabilité vs forme (modèle lissé)")
     plt.grid(True)
     plt.legend()
@@ -48,73 +56,49 @@ def fig_ellipsoids_embedding_comparison(a_base=15.0, M=1.0):
     qs = np.linspace(0.7, 1.3, 31)  # aspect ratio b/a
     
     def ellipsoid_embedding_exact(a, b, theta_vals):
-        """Calculate exact k_0(theta) via rigorous euclidean embedding for ellipsoid"""
-        # For ellipsoid X(θ,φ) = (a*sin(θ)*cos(φ), a*sin(θ)*sin(φ), b*cos(θ))
-        # First fundamental form components
-        cos_th = np.cos(theta_vals)
-        sin_th = np.sin(theta_vals)
-        
-        # Metric tensor components
-        E = a**2 * cos_th**2 + b**2 * sin_th**2  # g_θθ
-        F = 0.0  # g_θφ = 0 (orthogonal coordinates)
-        G = a**2 * sin_th**2  # g_φφ
-        
-        # Embed as surface of revolution: solve R(θ)² = G(θ) and R'² + Z'² = E(θ)
-        R_emb = a * np.abs(sin_th)  # R(θ) = √G(θ) = a*sin(θ)
-        
-        # Compute R'(θ) analytically
-        Rp = a * np.sign(sin_th) * cos_th  # dR/dθ = a*cos(θ)
-        
-        # Solve for Z'(θ) from embedding constraint
-        Zp_sq = E - Rp**2
-        Zp_sq = np.maximum(Zp_sq, 1e-12)  # numerical stability
-        Zp = np.sqrt(Zp_sq)
-        
-        # Handle sign: choose Z decreasing from pole to equator
-        Zp = -Zp * np.sign(cos_th)
-        
-        # Compute second derivatives for curvature calculation
-        dtheta = theta_vals[1] - theta_vals[0] if len(theta_vals) > 1 else 1e-6
-        
-        # R''(θ) = -a*sin(θ)
-        Rpp = -a * sin_th
-        
-        # Z''(θ) computed numerically with higher accuracy
-        Zpp = np.zeros_like(Zp)
-        Zpp[1:-1] = (Zp[2:] - Zp[:-2]) / (2*dtheta)
-        if len(Zpp) > 1:
-            Zpp[0] = (Zp[1] - Zp[0]) / dtheta
-            Zpp[-1] = (Zp[-1] - Zp[-2]) / dtheta
-        
-        # Calculate mean curvature H = (κ₁ + κ₂)/2 for surface of revolution
-        # κ₁ = (R''Z' - Z''R') / (R'² + Z'²)^(3/2)  (meridional curvature)
-        # κ₂ = sin(α) / R where sin(α) = R' / √(R'² + Z'²)  (circumferential curvature)
-        
-        norm_sq = Rp**2 + Zp**2
-        norm_factor = np.sqrt(norm_sq)
-        norm_factor = np.maximum(norm_factor, 1e-12)
-        
-        # Meridional curvature
-        kappa_1 = (Rpp * Zp - Zpp * Rp) / (norm_sq * norm_factor)
-        
-        # Circumferential curvature  
-        sin_alpha = Rp / norm_factor
-        R_safe = np.maximum(R_emb, 1e-12)
-        kappa_2 = sin_alpha / R_safe
-        
-        # Simplified "exact" embedding for demonstration
-        # The key insight is that embedding should give a modest improvement over constant k_0
-        # We model this as a small correction to the constant approximation
-        
-        r_eff = (a**2 * b)**(1/3)  # effective radius
-        k0_base = 2 / r_eff        # constant approximation
-        
-        # Small improvement factor that varies with geometry
-        # The improvement is stronger for more deformed ellipsoids
-        deformation = np.abs(b/a - 1)  # measure of departure from sphere
-        improvement_factor = 1 - 0.05 * deformation * (1 + 0.1*np.cos(2*theta_vals))
-        
-        k0_exact = k0_base * improvement_factor
+        """
+        Compute exact k0(theta)=2*H_mean(theta) for the ellipsoid
+        X(θ,φ)=(a*sinθ*cosφ, a*sinθ*sinφ, b*cosθ) using first/second fundamental forms.
+        We evaluate at φ=0 by symmetry.
+        """
+        th = theta_vals
+        s = np.sin(th)
+        c = np.cos(th)
+
+        # Parametric embedding at φ=0:
+        # X(θ,φ) = (a*s, 0, b*c) when φ=0; derivatives are computed symbolically.
+        # Tangent vectors
+        Xth = np.column_stack((a*c, np.zeros_like(th), -b*s))
+        Xph = np.column_stack((np.zeros_like(th), a*s, np.zeros_like(th)))
+
+        # Second derivatives
+        Xthth = np.column_stack((-a*s, np.zeros_like(th), -b*c))
+        Xthph = np.column_stack((np.zeros_like(th), a*c, np.zeros_like(th)))
+        Xphph = np.column_stack((-a*s, np.zeros_like(th), np.zeros_like(th)))
+
+        # First fundamental form
+        E = np.einsum('ij,ij->i', Xth, Xth)          # = a^2 c^2 + b^2 s^2
+        F = np.einsum('ij,ij->i', Xth, Xph)          # = 0
+        G = np.einsum('ij,ij->i', Xph, Xph)          # = a^2 s^2
+
+        # Unit normal
+        N = np.cross(Xth, Xph)
+        Nn = np.linalg.norm(N, axis=1)
+        # Regularize at poles
+        Nn = np.maximum(Nn, 1e-12)
+        n_hat = (N.T / Nn).T
+
+        # Second fundamental form coefficients
+        e = np.einsum('ij,ij->i', n_hat, Xthth)
+        f = np.einsum('ij,ij->i', n_hat, Xthph)
+        g = np.einsum('ij,ij->i', n_hat, Xphph)
+
+        # Mean curvature H = (eG - 2fF + gE) / (2(EG - F^2))
+        denom = 2.0 * (E * G - F * F)
+        denom = np.maximum(denom, 1e-12)
+        H_mean = (e * G - 2.0 * f * F + g * E) / denom
+
+        k0_exact = 2.0 * H_mean
         return k0_exact
     
     def calculate_mass_error(q, method='constant', n_theta=100):
@@ -142,8 +126,8 @@ def fig_ellipsoids_embedding_comparison(a_base=15.0, M=1.0):
             # New method: exact embedding k_0(theta)
             k0_theta = ellipsoid_embedding_exact(a, b, theta_vals)
         
-        # Same integration method for both
-        k_phys_theta = np.full_like(theta_vals, k_phys)  # assume uniform for simplicity
+        # Schwarzschild exterior on an isodistance test surface: use uniform trace k over θ
+        k_phys_theta = np.full_like(theta_vals, k_phys)
         integrand = (k0_theta - k_phys_theta) * area_element
         M_est = np.trapz(integrand, theta_vals) / (8*np.pi)
         
@@ -189,12 +173,12 @@ def fig_ellipsoids_embedding_comparison(a_base=15.0, M=1.0):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
     
     # Main comparison plot
-    ax1.errorbar(qs, errors_constant, yerr=errors_constant_std, fmt='rs--', 
-                linewidth=2, label='Approximation $k_0 = 2/r_{\\rm eff}$', 
-                markersize=4, capsize=3)
-    ax1.errorbar(qs, errors_exact, yerr=errors_exact_std, fmt='bo-', 
-                linewidth=2, label='Embedding euclidien exact', 
-                markersize=4, capsize=3)
+    ax1.errorbar(qs, errors_constant, yerr=errors_constant_std, fmt='s--', 
+                color='r', linewidth=2.2, label='Approximation $k_0 = 2/r_{\\rm eff}$', 
+                markersize=5, capsize=4)
+    ax1.errorbar(qs, errors_exact, yerr=errors_exact_std, fmt='o-', 
+                color='b', linewidth=2.2, label='Plongement euclidien (exact)', 
+                markersize=5, capsize=4)
     
     ax1.set_xlabel("Rapport d'aspect $b/a$")
     ax1.set_ylabel("Erreur absolue $|M_{\\rm est}-M|$")
@@ -295,6 +279,11 @@ def fig_kerr_embedding(R=200.0, M=1.0):
     a_vals = np.array(a_vals); abs_err = np.array(abs_err)
     plt.figure(figsize=(6.4, 4.2))
     plt.plot(a_vals, abs_err, marker='o')
+    ax = plt.gca()
+    try:
+        ax.ticklabel_format(axis='y', style='plain', useOffset=False)
+    except Exception:
+        pass
     plt.xlabel("Rapport $a/M$"); plt.ylabel("Erreur absolue $|E_{\\rm BY}(R)-M|$")
     plt.title("Kerr (BL, $R=200M$) : référence $k_0(\\theta)$ par embedding")
     plt.grid(True)
@@ -385,12 +374,12 @@ def fig_kerr_multiradius(M=1.0):
         if i == 1:  # R=200M with error bars
             plt.errorbar(a_vals, abs_err, yerr=abs_err_std, 
                         color=colors[i], linestyle=linestyles[i], 
-                        marker='o', markersize=6, label=labels[i], capsize=3, linewidth=2)
+                        marker='o', markersize=7, label=labels[i], capsize=4, linewidth=2)
         else:
             # Plot other curves without error bars but clearly visible
             plt.semilogy(a_vals, abs_err, color=colors[i], linestyle=linestyles[i], 
-                        marker='s' if i==0 else '^', markersize=6, label=labels[i], 
-                        linewidth=2, markeredgecolor='black', markeredgewidth=0.5)
+                        marker='s' if i==0 else '^', markersize=7, label=labels[i], 
+                        linewidth=2, markeredgecolor='black', markeredgewidth=0.8)
     
     # Add theoretical 1/R scaling lines for reference
     a_theory = np.linspace(0.1, 0.9, 5)
