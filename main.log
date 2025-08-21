@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 14:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 14:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -435,53 +435,65 @@ Package pdftex.def Info: fig_error_vs_radius_improved.pdf  used on input line 5
 
 
 [2 <./fig_error_vs_radius_improved.pdf>]
+Overfull \hbox (18.7669pt too wide) in paragraph at lines 64--65
+[]\OT1/cmr/m/n/10.95 L'embedding eu-cli-dien ex-act am^^Seliore sig-ni-fica-tiv
+e-ment la pr^^Secision par rap-port ^^Ra l'approximation
+ []
+
 <fig_relerr_vs_aspect_improved.pdf, id=122, 440.23973pt x 295.06801pt>
 File: fig_relerr_vs_aspect_improved.pdf Graphic file (type pdf)
 <use fig_relerr_vs_aspect_improved.pdf>
 Package pdftex.def Info: fig_relerr_vs_aspect_improved.pdf  used on input line 
-65.
+68.
 (pdftex.def)             Requested size: 341.43307pt x 228.85092pt.
+<fig_ellipsoids_embedding_comparison.pdf, id=123, 498.07204pt x 316.82051pt>
+File: fig_ellipsoids_embedding_comparison.pdf Graphic file (type pdf)
+<use fig_ellipsoids_embedding_comparison.pdf>
+Package pdftex.def Info: fig_ellipsoids_embedding_comparison.pdf  used on input
+ line 74.
+(pdftex.def)             Requested size: 341.43307pt x 217.18509pt.
 
 
 [3
 
- <./fig_relerr_vs_aspect_improved.pdf>]
+ <./fig_relerr_vs_aspect_improved.pdf> <./fig_ellipsoids_embedding_comparison.p
+df>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
+(hyperref)                removing `math shift' on input line 79.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\theta' on input line 70.
+(hyperref)                removing `subscript' on input line 79.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 70.
+(hyperref)                removing `\theta' on input line 79.
 
-<fig_kerr_embedding_refined.pdf, id=182, 454.61781pt x 294.60626pt>
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 79.
+
+<fig_kerr_embedding_refined.pdf, id=240, 454.61781pt x 294.60626pt>
 File: fig_kerr_embedding_refined.pdf Graphic file (type pdf)
 <use fig_kerr_embedding_refined.pdf>
-Package pdftex.def Info: fig_kerr_embedding_refined.pdf  used on input line 79.
+Package pdftex.def Info: fig_kerr_embedding_refined.pdf  used on input line 88.
 
 (pdftex.def)             Requested size: 341.43307pt x 221.26881pt.
-<fig_kerr_multiradius.pdf, id=183, 498.67851pt x 316.02628pt>
+<fig_kerr_multiradius.pdf, id=241, 498.67851pt x 316.02628pt>
 File: fig_kerr_multiradius.pdf Graphic file (type pdf)
 <use fig_kerr_multiradius.pdf>
-Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 85.
+Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 94.
 (pdftex.def)             Requested size: 341.43307pt x 216.38025pt.
 
 
 [4
 
  <./fig_kerr_embedding_refined.pdf> <./fig_kerr_multiradius.pdf>]
-<fig_tov_full.pdf, id=305, 454.87503pt x 294.43187pt>
+<fig_tov_full.pdf, id=363, 454.87503pt x 294.43187pt>
 File: fig_tov_full.pdf Graphic file (type pdf)
 <use fig_tov_full.pdf>
-Package pdftex.def Info: fig_tov_full.pdf  used on input line 97.
+Package pdftex.def Info: fig_tov_full.pdf  used on input line 106.
 (pdftex.def)             Requested size: 341.43307pt x 221.01654pt.
 
 
@@ -490,55 +502,55 @@ Package pdftex.def Info: fig_tov_full.pdf  used on input line 97.
  <./fig_tov_full.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 103.
+(hyperref)                removing `math shift' on input line 112.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 103.
+(hyperref)                removing `superscript' on input line 112.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 103.
+(hyperref)                removing `math shift' on input line 112.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 107.
+(hyperref)                removing `math shift' on input line 116.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 107.
+(hyperref)                removing `superscript' on input line 116.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 107.
+(hyperref)                removing `math shift' on input line 116.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 107.
+(hyperref)                removing `math shift' on input line 116.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 107.
+(hyperref)                removing `superscript' on input line 116.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 107.
+(hyperref)                removing `math shift' on input line 116.
 
-<fig_extra_dimension_effect_improved.pdf, id=352, 441.22324pt x 296.0759pt>
+<fig_extra_dimension_effect_improved.pdf, id=411, 441.22324pt x 296.0759pt>
 File: fig_extra_dimension_effect_improved.pdf Graphic file (type pdf)
 <use fig_extra_dimension_effect_improved.pdf>
 Package pdftex.def Info: fig_extra_dimension_effect_improved.pdf  used on input
- line 116.
+ line 125.
 (pdftex.def)             Requested size: 341.43307pt x 229.11308pt.
-<fig_torus_anisotropic.pdf, id=353, 424.5544pt x 294.56436pt>
+<fig_torus_anisotropic.pdf, id=412, 424.5544pt x 294.56436pt>
 File: fig_torus_anisotropic.pdf Graphic file (type pdf)
 <use fig_torus_anisotropic.pdf>
-Package pdftex.def Info: fig_torus_anisotropic.pdf  used on input line 122.
+Package pdftex.def Info: fig_torus_anisotropic.pdf  used on input line 131.
 (pdftex.def)             Requested size: 218.51521pt x 151.61018pt.
-<fig_sphere_multishell.pdf, id=354, 425.92876pt x 294.56436pt>
+<fig_sphere_multishell.pdf, id=413, 425.92876pt x 294.56436pt>
 File: fig_sphere_multishell.pdf Graphic file (type pdf)
 <use fig_sphere_multishell.pdf>
-Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 123.
+Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 132.
 (pdftex.def)             Requested size: 218.51521pt x 151.12027pt.
 
 
@@ -558,10 +570,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 5C95855ED351A5B7B3839BAD293F94C1;2394.
  ) 
 Here is how much of TeX's memory you used:
- 10490 strings out of 474662
- 160635 string characters out of 5751109
+ 10498 strings out of 474662
+ 160988 string characters out of 5751109
  574435 words of memory out of 5000000
- 33357 multiletter control sequences out of 15000+600000
+ 33364 multiletter control sequences out of 15000+600000
  575234 words of font info for 96 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  75i,11n,79p,580b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -584,10 +596,10 @@ exlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
 al/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
 /local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
 pfb>
-Output written on main.pdf (7 pages, 327566 bytes).
+Output written on main.pdf (7 pages, 343585 bytes).
 PDF statistics:
- 600 PDF objects out of 1000 (max. 8388607)
- 226 compressed objects within 3 object streams
- 43 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 658 PDF objects out of 1000 (max. 8388607)
+ 236 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

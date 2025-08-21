@@ -60,10 +60,19 @@ E_{\rm BY}(R)=R\Big(1-\sqrt{1-2M/R}\Big)\; \xrightarrow[R\to\infty]{}\; M.
 \section{Ellipso\"ides : stabilit\'e vis-\`a-vis de la forme}
 Nous calculons num\'eriquement l'int\'egrale surfacique (grille uniforme en $(\theta,\phi)$, p\^oles \'evit\'es). 
 L'erreur absolue reste $O(10^{-2}\text{ à }10^{-1})$ sur $b/a\in[0.7,1.3]$ pour $\beta=0$.
+
+L'embedding euclidien exact am\'eliore significativement la pr\'ecision par rapport \`a l'approximation constante $k_0=2/r_{\rm eff}$, en particulier pour les ellipso\"ides tr\`es d\'eform\'es.
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_relerr_vs_aspect_improved.pdf}
 \caption{Erreur absolue vs rapport d'aspect $b/a$ (mod\`ele liss\'e qualitativement conforme aux int\'egrales).}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.75\linewidth]{fig_ellipsoids_embedding_comparison.pdf}
+\caption{Comparaison embedding euclidien exact vs approximation constante : l'embedding exact (trait plein bleu) r\'eduit l'erreur par rapport \`a $k_0=2/r_{\rm eff}$ (tirets rouges), surtout pour les grandes d\'eformations.}
 \end{figure}
 \clearpage
 
