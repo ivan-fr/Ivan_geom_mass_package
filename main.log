@@ -451,29 +451,130 @@ File: fig_ellipsoids_embedding_comparison.pdf Graphic file (type pdf)
 <use fig_ellipsoids_embedding_comparison.pdf>
 Package pdftex.def Info: fig_ellipsoids_embedding_comparison.pdf  used on input
  line 73.
-(pdftex.def)             Requested size: 432.48051pt x 177.5777pt.
-Runaway argument?
-{figure> \clearpage 
-! Paragraph ended before \end  was complete.
-<to be read again> 
-                   \par 
-l.77 
-     
-? 
-! Emergency stop.
-<to be read again> 
-                   \par 
-l.77 
-     
-End of file on the terminal!
+(pdftex.def)             Requested size: 341.43307pt x 140.19263pt.
 
- 
+
+[3
+
+ <./fig_relerr_vs_aspect_improved.pdf> <./fig_ellipsoids_embedding_comparison.p
+df>]
+Overfull \hbox (11.16562pt too wide) in paragraph at lines 79--80
+\OT1/cmr/m/n/10.95 Pour ^^Setudier qual-i-ta-tive-ment le com-porte-ment de Ker
+r, nous util-isons un mod^^Rele ph^^Senom^^Senologique
+ []
+
+<fig_kerr_embedding_refined.pdf, id=218, 454.61781pt x 294.60626pt>
+File: fig_kerr_embedding_refined.pdf Graphic file (type pdf)
+<use fig_kerr_embedding_refined.pdf>
+Package pdftex.def Info: fig_kerr_embedding_refined.pdf  used on input line 85.
+
+(pdftex.def)             Requested size: 341.43307pt x 221.26881pt.
+<fig_kerr_multiradius.pdf, id=219, 570.94849pt x 352.2328pt>
+File: fig_kerr_multiradius.pdf Graphic file (type pdf)
+<use fig_kerr_multiradius.pdf>
+Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 91.
+(pdftex.def)             Requested size: 341.43307pt x 210.63722pt.
+
+
+[4
+
+ <./fig_kerr_embedding_refined.pdf> <./fig_kerr_multiradius.pdf>]
+<fig_tov_full.pdf, id=351, 454.87503pt x 294.43187pt>
+File: fig_tov_full.pdf Graphic file (type pdf)
+<use fig_tov_full.pdf>
+Package pdftex.def Info: fig_tov_full.pdf  used on input line 103.
+(pdftex.def)             Requested size: 341.43307pt x 221.01654pt.
+
+
+[5
+
+ <./fig_tov_full.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 109.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `superscript' on input line 109.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 109.
+
+<fig_extra_dimension_effect_improved.pdf, id=399, 441.22324pt x 296.0759pt>
+File: fig_extra_dimension_effect_improved.pdf Graphic file (type pdf)
+<use fig_extra_dimension_effect_improved.pdf>
+Package pdftex.def Info: fig_extra_dimension_effect_improved.pdf  used on input
+ line 121.
+(pdftex.def)             Requested size: 341.43307pt x 229.11308pt.
+<fig_torus_anisotropic.pdf, id=400, 424.5544pt x 294.56436pt>
+File: fig_torus_anisotropic.pdf Graphic file (type pdf)
+<use fig_torus_anisotropic.pdf>
+Package pdftex.def Info: fig_torus_anisotropic.pdf  used on input line 127.
+(pdftex.def)             Requested size: 218.51521pt x 151.61018pt.
+<fig_sphere_multishell.pdf, id=401, 425.92876pt x 294.56436pt>
+File: fig_sphere_multishell.pdf Graphic file (type pdf)
+<use fig_sphere_multishell.pdf>
+Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 128.
+(pdftex.def)             Requested size: 218.51521pt x 151.12027pt.
+
+
+[6
+
+ <./fig_extra_dimension_effect_improved.pdf> <./fig_torus_anisotropic.pdf> <./f
+ig_sphere_multishell.pdf>]
+
+[7
+
+] (./main.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: C5C6AB26163E0C8658DB74352A43F444;536
+(rerunfilecheck)             After:  88AE422FF94EF920A9996462DAFDA96D;2337.
+ ) 
 Here is how much of TeX's memory you used:
- 10387 strings out of 474662
- 158458 string characters out of 5751109
+ 10491 strings out of 474662
+ 160901 string characters out of 5751109
  572991 words of memory out of 5000000
- 33292 multiletter control sequences out of 15000+600000
- 574720 words of font info for 94 fonts, out of 8000000 for 9000
+ 33357 multiletter control sequences out of 15000+600000
+ 575234 words of font info for 96 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  75i,11n,79p,541b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ </Users/ivanbesevic/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/tcrm1095.600pk></usr/local/texlive/2025basic/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025basic/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025basic/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025basic/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025bas
+ic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025
+basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/20
+25basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/
+2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
+ive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/t
+exlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
+al/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
+/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
+pfb>
+Output written on main.pdf (7 pages, 345888 bytes).
+PDF statistics:
+ 653 PDF objects out of 1000 (max. 8388607)
+ 215 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 62 words of extra memory for PDF output out of 10000 (max. 10000000)
+
