@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 14:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 14:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -468,17 +468,17 @@ File: fig_kerr_embedding_refined.pdf Graphic file (type pdf)
 Package pdftex.def Info: fig_kerr_embedding_refined.pdf  used on input line 79.
 
 (pdftex.def)             Requested size: 341.43307pt x 221.26881pt.
-<fig_kerr_multiradius.pdf, id=183, 499.25847pt x 316.02628pt>
+<fig_kerr_multiradius.pdf, id=183, 498.67851pt x 316.02628pt>
 File: fig_kerr_multiradius.pdf Graphic file (type pdf)
 <use fig_kerr_multiradius.pdf>
 Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 85.
-(pdftex.def)             Requested size: 341.43307pt x 216.12466pt.
+(pdftex.def)             Requested size: 341.43307pt x 216.38025pt.
 
 
 [4
 
  <./fig_kerr_embedding_refined.pdf> <./fig_kerr_multiradius.pdf>]
-<fig_tov_full.pdf, id=306, 454.87503pt x 294.43187pt>
+<fig_tov_full.pdf, id=305, 454.87503pt x 294.43187pt>
 File: fig_tov_full.pdf Graphic file (type pdf)
 <use fig_tov_full.pdf>
 Package pdftex.def Info: fig_tov_full.pdf  used on input line 97.
@@ -524,18 +524,18 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 107.
 
-<fig_extra_dimension_effect_improved.pdf, id=353, 441.22324pt x 296.0759pt>
+<fig_extra_dimension_effect_improved.pdf, id=352, 441.22324pt x 296.0759pt>
 File: fig_extra_dimension_effect_improved.pdf Graphic file (type pdf)
 <use fig_extra_dimension_effect_improved.pdf>
 Package pdftex.def Info: fig_extra_dimension_effect_improved.pdf  used on input
  line 116.
 (pdftex.def)             Requested size: 341.43307pt x 229.11308pt.
-<fig_torus_anisotropic.pdf, id=354, 424.5544pt x 294.56436pt>
+<fig_torus_anisotropic.pdf, id=353, 424.5544pt x 294.56436pt>
 File: fig_torus_anisotropic.pdf Graphic file (type pdf)
 <use fig_torus_anisotropic.pdf>
 Package pdftex.def Info: fig_torus_anisotropic.pdf  used on input line 122.
 (pdftex.def)             Requested size: 218.51521pt x 151.61018pt.
-<fig_sphere_multishell.pdf, id=355, 425.92876pt x 294.56436pt>
+<fig_sphere_multishell.pdf, id=354, 425.92876pt x 294.56436pt>
 File: fig_sphere_multishell.pdf Graphic file (type pdf)
 <use fig_sphere_multishell.pdf>
 Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 123.
@@ -584,9 +584,9 @@ exlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
 al/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
 /local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
 pfb>
-Output written on main.pdf (7 pages, 327476 bytes).
+Output written on main.pdf (7 pages, 327566 bytes).
 PDF statistics:
- 601 PDF objects out of 1000 (max. 8388607)
+ 600 PDF objects out of 1000 (max. 8388607)
  226 compressed objects within 3 object streams
  43 named destinations out of 1000 (max. 500000)
  113 words of extra memory for PDF output out of 10000 (max. 10000000)
