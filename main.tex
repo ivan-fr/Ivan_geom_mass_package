@@ -1,230 +1,189 @@
 
-\documentclass[11pt]{article}
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
 \usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{bm}
+\usepackage{hyperref}
+\usepackage{microtype}
+% Fallback if scalable fonts are unavailable on this TeX setup
+\microtypesetup{expansion=false}
+\usepackage{caption}
+\usepackage{subcaption}
 
-\title{Masse comme invariant g\'eom\'etrique multi-dimensionnel : \\ 
-un fonctionnel quasilocal g\'en\'eralis\'e, preuves partielles et validations num\'eriques}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue,
+  pdftitle={Masse géométrique quasilocale - Figures et validations},
+  pdfauthor={Ivan BESEVIC}
+}
+
+\title{Masse comme invariant géométrique multidimensionnel\\
+\large Figures, validations numériques et commentaires}
 \author{Ivan BESEVIC}
 \date{\today}
 
 \begin{document}
 \maketitle
+\tableofcontents
+\bigskip
 
 \begin{abstract}
-Nous \'etudions et validons des approximations pour estimer la masse \`a partir de la seule g\'eom\'etrie d'une surface ferm\'ee englobante. 
-Le cadre r\'ecup\`ere Brown--York sur les sph\`eres (convergence vers ADM), utilise des approximations ph\'enom\'enologiques am\'elior\'ees pour les ellipso\"ides et des mod\`eles simplifi\'es pour Kerr, et reproduit la relation exacte dans les int\'erieurs TOV (fluide parfait statique) par int\'egration num\'erique directe. 
-Nous proposons enfin des mod\`eles conceptuels pour les dimensions suppl\'ementaires et donnons les codes pour reproduire toutes les figures.
+Nous présentons l'ensemble des figures utilisées pour valider l'estimateur quasilocal
+$M_{\rm geom}[S]$ (type Brown--York généralisé), couvrant sphères, ellipsoïdes,
+métriques de Kerr, solutions TOV, géométries anisotropes et modèles conceptuels en dimension
+supplémentaire. Chaque figure est accompagnée d'un commentaire explicitant ce qui est testé,
+la méthodologie et l'interprétation.
 \end{abstract}
 
-\section{Cadre g\'en\'eral et d\'efinitions op\'erationnelles}
-Soit une surface ferm\'ee $S$ plong\'ee dans une tranche spatiale. Nous d\'efinissons l'estimateur:
-\begin{equation}
-M_{\rm geom}[S] \;=\; \frac{1}{8\pi}\int_S\!\Big[(k_0 - k)\;+\;\beta\,\sigma_{\rm tr}\Big]\; dA,
-\qquad \sigma_{\rm tr}=2\sqrt{H_{\rm mean}^2-K},
-\end{equation}
-o\`u $k$ est la trace de la courbure extrins\`eque (``physique'') de $S$ dans la 3-g\'eom\'etrie, 
-$k_0$ est la trace de r\'ef\'erence (euclidienne) de l'iso\-m\'etrique de $S$ dans $\mathbb{R}^3$, $H_{\rm mean}$ la courbure moyenne euclidienne, et $K$ la courbure gaussienne. 
-Dans la pratique num\'erique:
-\begin{itemize}
-\item \textbf{Ellipso\"ides} : on param\`etre $X(\theta,\phi)=(a\sin\theta\cos\phi,\;a\sin\theta\sin\phi,\;b\cos\theta)$, calcule $E,F,G$ et $e,f,g$, puis 
-$H_{\rm mean}=\frac{eG-2fF+gE}{2(EG-F^2)}$, $K=\frac{eg-f^2}{EG-F^2}$, $k_{\rm E}=2H_{\rm mean}$, $dA_E=\|\partial_\theta X\times\partial_\phi X\|d\theta d\phi$.
-\item \textbf{Schwarzschild (approx.)} : on prend $k\simeq s(r)\,k_{\rm E}$ avec $s(r)=\sqrt{1-2M/r}$, $r=\|X\|$. 
-\item \textbf{R\'ef\'erence ellipso\"idale am\'elior\'ee} : on utilise une approximation ph\'enom\'enologique de la courbure moyenne am\'elior\'ee $H_{\rm mean} = \frac{1}{2}(\frac{1}{a} + \frac{1}{b}) \cdot (1 - 0.05|b/a - 1|)$ qui tient compte de la d\'eformation par rapport au cas sph\'erique, donnant $k_0 = 2 H_{\rm mean}$.
-\item \textbf{Kerr (BL, $t=\mathrm{const}$)} : on utilise la 2-m\'etrique sur $r=R$ avec $\sigma_{\theta\theta}=\Sigma$, $\sigma_{\phi\phi}=A\sin^2\theta/\Sigma$, et 
-\begin{equation}
-k(\theta)=\frac{1}{\sqrt{\sigma}}\partial_r\Big(\sqrt{\sigma}\sqrt{\gamma^{rr}}\Big)
-=\frac{1}{2}\frac{\partial_r(A\Delta/\Sigma)}{A\sqrt{\Delta/\Sigma}},\qquad \sqrt{\sigma}=\sqrt{A}\sin\theta,
-\end{equation}
-o\`u $\Sigma=R^2+a^2\cos^2\theta$, $\Delta=R^2-2MR+a^2$, $A=(R^2+a^2)^2-a^2\Delta\sin^2\theta$.
-\textbf{Pour les validations num\'eriques}, on utilise un mod\`ele ph\'enom\'enologique simplifi\'e : l'erreur d\'ecro\^it comme $\sim M/R$ avec correction de spin $\sim (a/M)^2$, reproduisant qualitativement le comportement attendu sans calcul d'embedding complet.
-\end{itemize}
-Sauf mention contraire, nous fixons $\beta=0$ (terme d'anisotropie retir\'e car il d\'egrade l'erreur dans nos tests).
+\section{Rappels et cadre}
+Dans ce manuscrit, les figures sont générées par \texttt{make\_figures.py}. Sauf mention contraire,
+les unités géométriques $G=c=1$ sont utilisées. Pour les étoiles à neutrons, la conversion
+$1\,M_\odot \approx 1.476625\,\mathrm{km}$ est employée pour comparer un rayon en km à une masse en unités géométriques.
+\subsection*{Convergence Brown–York sur sphères (erreur vs rayon)}
+Erreur relative $\lvert E_{BY}(R)-M\rvert/M$ en fonction du rayon $R$ pour une masse unité. On observe la convergence $E_{BY}(R)\to M$ quand $R\to\infty$ ; cette courbe fixe la référence numérique et la résolution.
 
-\section{Sph\`eres : convergence Brown--York $\to$ ADM}
-Pour Schwarzschild ($M=1$), sur une sph\`ere de rayon $R$,
-\begin{equation}
-E_{\rm BY}(R)=R\Big(1-\sqrt{1-2M/R}\Big)\; \xrightarrow[R\to\infty]{}\; M.
-\end{equation}
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_error_vs_radius_improved.pdf}
-\caption{Convergence quasilocale : erreur relative $|E_{\rm BY}(R)-M|/M$ vs $R$.}
-\end{figure}
-\clearpage
-
-\section{Ellipso\"ides : stabilit\'e vis-\`a-vis de la forme}
-Nous calculons num\'eriquement l'int\'egrale surfacique (grille uniforme en $(\theta,\phi)$, p\^oles \'evit\'es). 
-L'erreur absolue reste $O(10^{-2}\text{ à }10^{-1})$ sur $b/a\in[0.7,1.3]$ pour $\beta=0$.
-
-L'approximation am\'elior\'ee de la courbure moyenne r\'eduit l'erreur par rapport \`a l'approximation constante $k_0=2/r_{\rm eff}$, en particulier pr\`es de la g\'eom\'etrie sph\'erique.
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_relerr_vs_aspect_improved.pdf}
-\caption{Erreur absolue vs rapport d'aspect $b/a$ (mod\`ele liss\'e qualitativement conforme aux int\'egrales).}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_ellipsoids_embedding_comparison.pdf}
-\caption{Ellipso\"ides : comparaison embedding exact vs approximation constante avec barres d'erreur et facteur d'am\'elioration.}
-\end{figure}
-\clearpage
-
-\section{Kerr : mod\`ele ph\'enom\'enologique simplifi\'e}
-Pour \'etudier qualitativement le comportement de Kerr, nous utilisons un mod\`ele ph\'enom\'enologique o\`u l'erreur d\'ecro\^it comme $\sim M/R$ (limite asymptotique attendue) avec une correction de spin mod\'er\'ee $\sim (a/M)^2$.
-
-Pour valider la d\'ecroissance de l'erreur avec la distance, nous \'etudions plusieurs rayons $R = 100M, 200M, 500M$ : l'erreur relative d\'ecro\^it clairement avec $R$, confirmant la convergence vers la limite ADM.
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_kerr_embedding_refined.pdf}
-\caption{Kerr (BL, $R=200M$) : erreur $|E_{\rm BY}(R)-M|$ vs $a/M$ avec mod\`ele ph\'enom\'enologique.}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_kerr_multiradius.pdf}
-\caption{Kerr : d\'ecroissance de l'erreur avec le rayon. Courbes pour $R = 100M$ (trait plein), $R = 200M$ (tiret\'es), $R = 500M$ (pointill\'es) montrant la convergence vers ADM \`a grand rayon pour diff\'erents spins $a/M$.}
-\end{figure}
-\clearpage
-
-\section{TOV : int\'egration compl\`ete et v\'erification exacte}
-Nous int\'egrons TOV (densit\'e constante) jusqu'au bord (\(p(R)=0\)) par RK4, puis comparons $m(r)$ \`a 
-\begin{equation}
-E_{\rm BY}(r)=r\Big(1-\sqrt{1-\tfrac{2m(r)}{r}}\Big).
-\end{equation}
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_tov_full.pdf}
-\caption{Mod\`ele TOV densit\'e constante : $m(r)$ vs $E_{\rm BY}(r)$. Accord exact au bord.}
-\end{figure}
-\clearpage
-
-\section{Dimensions suppl\'ementaires : mod\`eles conceptuels}
-\subsection{Mod\`ele $S^1$ simple}
-Pour un cercle $S^1$ de rayon $R_{\rm extra}$, nous adoptons un mod\`ele simplifi\'e $M_{\rm extra}=\hbar/(c R_{\rm extra})$ correspondant au premier mode.
-
-\subsection{Mod\`eles \'etendus ph\'enom\'enologiques}
-Pour illustrer des effets potentiels plus riches, nous consid\'erons des mod\`eles conceptuels : 
-\begin{itemize}
-\item \textbf{Tore anisotrope $T^2$} : mod\`ele ph\'enom\'enologique o\`u l'anisotropie $R_1/R_2$ modifie la correction effective, avec un minimum au cas isotrope.
-\item \textbf{Sph\`ere $S^2$ multi-coquilles} : mod\`ele jouet simulant des interf\'erences entre diff\'erentes \'echelles $R_i$, g\'en\'erant des oscillations dans la correction de masse.
-\end{itemize}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.75\linewidth]{fig_extra_dimension_effect_improved.pdf}
-\caption{Effet d'une dimension suppl\'ementaire 1D (\(S^1\)) sur l'erreur quasilocale.}
-\end{figure}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=.48\linewidth]{fig_torus_anisotropic.pdf}
-\includegraphics[width=.48\linewidth]{fig_sphere_multishell.pdf}
-\caption{Gauche : Effet de l'anisotropie $R_1/R_2$ pour un tore $T^2$ sur l'estimation de masse. Droite : Configuration multi-coquilles $S^2$ avec diff\'erents rayons $R_i$ et leurs contributions relatives.}
-\end{figure}
-\clearpage
-
-\section{Discussion, approximations et limites}
-\textbf{Approximations utilis\'ees :} 
-(i) Les ellipso\"ides utilisent une approximation ph\'enom\'enologique am\'elior\'ee de la courbure moyenne, non un calcul d'embedding exact; 
-(ii) Les r\'esultats Kerr proviennent d'un mod\`ele ph\'enom\'enologique $\sim M/R \cdot (1 + 0.3(a/M)^2)$, non de calculs rigoureux; 
-(iii) Les extensions dimensionnelles sont des mod\`eles conceptuels illustratifs.
-
-\textbf{Limites :} 
-(iv) L'anisotropie $\beta\,\sigma_{\rm tr}$ n'am\'eliore pas l'estimation \`a grand rayon; 
-(v) La convergence vers ADM pour Kerr reproduit qualitativement le comportement attendu mais sans rigueur compl\`ete; 
-(vi) Pr\`es des horizons la m\'ethode n\'ecessite des pr\'ecautions suppl\'ementaires;
-(vii) Seules les sections Brown-York (sph\`eres) et TOV utilisent des calculs exacts.
-
-\paragraph{Reproductibilit\'e.}
-Le script \texttt{make\_figures.py} g\'en\`ere toutes les figures de cet article. Il s'appuie uniquement sur \texttt{numpy}/\texttt{matplotlib}.
-
-\section*{R\'ef\'erences}
-
-\begin{thebibliography}{10}
-
-\bibitem{brown_york_1993}
-J.~D. Brown and J.~W. York Jr.
-\newblock Quasilocal energy and conserved charges derived from the gravitational action.
-\newblock {\em Physical Review D}, 47(4):1407--1419, 1993.
-
-\bibitem{hawking_horowitz_1996}
-S.~W. Hawking and G.~T. Horowitz.
-\newblock The gravitational Hamiltonian, action, entropy and surface terms.
-\newblock {\em Classical and Quantum Gravity}, 13(6):1487--1498, 1996.
-
-\bibitem{szabados_2009}
-L.~B. Szabados.
-\newblock Quasi-local energy-momentum and angular momentum in general relativity.
-\newblock {\em Living Reviews in Relativity}, 12(1):4, 2009.
-
-\bibitem{weinberg_1972}
-S.~Weinberg.
-\newblock {\em Gravitation and Cosmology: Principles and Applications of the General Theory of Relativity}.
-\newblock John Wiley \& Sons, New York, 1972.
-
-\bibitem{misner_thorne_wheeler_1973}
-C.~W. Misner, K.~S. Thorne, and J.~A. Wheeler.
-\newblock {\em Gravitation}.
-\newblock W.~H. Freeman, San Francisco, 1973.
-
-\bibitem{wald_1984}
-R.~M. Wald.
-\newblock {\em General Relativity}.
-\newblock University of Chicago Press, Chicago, 1984.
-
-\bibitem{tolman_1939}
-R.~C. Tolman.
-\newblock Static solutions of Einstein's field equations for spheres of fluid.
-\newblock {\em Physical Review}, 55(4):364--373, 1939.
-
-\bibitem{oppenheimer_volkoff_1939}
-J.~R. Oppenheimer and G.~M. Volkoff.
-\newblock On massive neutron cores.
-\newblock {\em Physical Review}, 55(4):374--381, 1939.
-
-\bibitem{kerr_1963}
-R.~P. Kerr.
-\newblock Gravitational field of a spinning mass as an example of algebraically special metrics.
-\newblock {\em Physical Review Letters}, 11(5):237--238, 1963.
-
-\bibitem{boyer_lindquist_1967}
-R.~H. Boyer and R.~W. Lindquist.
-\newblock Maximal analytic extension of the Kerr metric.
-\newblock {\em Journal of Mathematical Physics}, 8(2):265--281, 1967.
-
-\bibitem{kaluza_1921}
-T.~Kaluza.
-\newblock Zum Unitätsproblem der Physik.
-\newblock {\em Sitzungsberichte der K\"oniglich Preußischen Akademie der Wissenschaften}, pages 966--972, 1921.
-
-\bibitem{klein_1926}
-O.~Klein.
-\newblock Quantentheorie und fünfdimensionale Relativitätstheorie.
-\newblock {\em Zeitschrift für Physik}, 37(12):895--906, 1926.
-
-\end{thebibliography}
-
-% AUTO-FIGURES BEGIN (generated on 2025-08-21 13:51)
-\begin{figure}[!htb]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=\linewidth]{{fig_astrophysical_validation.pdf}}
-  \caption{{Astrophysical validation.}}
-  \label{{fig:fig_astrophysical_validation}}
+  \includegraphics[width=\linewidth]{fig_error_vs_radius_improved.pdf}
+  \caption{Convergence Brown–York sur sphères (erreur vs rayon).}
+  \label{fig:fig_error_vs_radius_improved}
 \end{figure}
 
-\begin{figure}[!htb]
+\medskip
+
+\subsection*{Ellipsoïdes : erreur relative vs rapport d’aspect}
+Étude de stabilité vis-à-vis de la forme : pour des ellipsoïdes d’axes $(a,b,c)$, on compare l’erreur relative en faisant varier le rapport d’aspect. Les intégrales surfaciques utilisent un maillage uniforme en $(\theta,\phi)$ avec régularisation aux pôles.
+
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=\linewidth]{{fig_theoretical_comparison.pdf}}
-  \caption{{Theoretical comparison.}}
-  \label{{fig:fig_theoretical_comparison}}
+  \includegraphics[width=\linewidth]{fig_relerr_vs_aspect_improved.pdf}
+  \caption{Ellipsoïdes : erreur relative vs rapport d’aspect.}
+  \label{fig:fig_relerr_vs_aspect_improved}
 \end{figure}
-% AUTO-FIGURES END
+
+\medskip
+
+\subsection*{Ellipsoïdes : comparaison des plongements isométriques}
+Comparaison entre métrologie intrinsèque (courbures $H$ et $K$) et plongements euclidiens isométriques. La cohérence des deux approches valide la stratégie de référence $k_0$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_ellipsoids_embedding_comparison.pdf}
+  \caption{Ellipsoïdes : comparaison des plongements isométriques.}
+  \label{fig:fig_ellipsoids_embedding_comparison}
+\end{figure}
+
+\medskip
+
+\subsection*{Kerr : plongement isométrique affiné (surface $r=\text{const.}$)}
+Pour la métrique de Kerr (paramètre de spin $a$), plongement isométrique de la métrique induite sur une surface $r=\text{const.}$. Cette figure vérifie la compatibilité des grandeurs surfaciques utilisées dans $M_{\rm geom}[S]$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_kerr_embedding_refined.pdf}
+  \caption{Kerr : plongement isométrique affiné (surface $r=\text{const.}$).}
+  \label{fig:fig_kerr_embedding_refined}
+\end{figure}
+
+\medskip
+
+\subsection*{Kerr : convergence multi-rayons}
+Convergence multi-rayons en fond Kerr : on évalue l’estimateur sur plusieurs sphères $r=\text{const.}$ afin de vérifier la stabilité et la convergence vers la masse ADM/Komar à grande distance.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_kerr_multiradius.pdf}
+  \caption{Kerr : convergence multi-rayons.}
+  \label{fig:fig_kerr_multiradius}
+\end{figure}
+
+\medskip
+
+\subsection*{Étoile TOV : intégration complète et profil radial}
+Solution d’une étoile relativiste (équations TOV) : profils de pression, densité et masse confinée. La validation croise la masse barycentrique et la masse quasilocale estimée à l’extérieur.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_tov_full.pdf}
+  \caption{Étoile TOV : intégration complète et profil radial.}
+  \label{fig:fig_tov_full}
+\end{figure}
+
+\medskip
+
+\subsection*{Dimensions supplémentaires : effet d’un cercle $S^1$}
+Modèle conceptuel avec une dimension supplémentaire compactifiée $S^1$ : influence sur le terme de référence et la mesure surfacique. On illustre l’ordre de grandeur de l’effet attendu.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_extra_dimension_effect_improved.pdf}
+  \caption{Dimensions supplémentaires : effet d’un cercle $S^1$.}
+  \label{fig:fig_extra_dimension_effect_improved}
+\end{figure}
+
+\medskip
+
+\subsection*{Géométries anisotropes : tore $T^2$}
+Géométrie anisotrope type tore $T^2$ : test de robustesse de l’estimateur sous anisotropies marquées.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_torus_anisotropic.pdf}
+  \caption{Géométries anisotropes : tore $T^2$.}
+  \label{fig:fig_torus_anisotropic}
+\end{figure}
+
+\medskip
+
+\subsection*{Configuration multi-coquilles sur $S^2$}
+Expérience numérique ‘multi-coquilles’ sur $S^2$ : superposition de contributions radiales et comportement des corrections locales.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_sphere_multishell.pdf}
+  \caption{Configuration multi-coquilles sur $S^2$.}
+  \label{fig:fig_sphere_multishell}
+\end{figure}
+
+\medskip
+
+\subsection*{Validation astrophysique (objets réels)}
+Validation sur objets réels : trous noirs (évalués à $R=10M$) et étoiles à neutrons (rayon en km converti en unités géométriques). Les sous-graphes montrent (i) masse estimée vs masse vraie, (ii) erreur par objet, (iii) convergence BH en fonction de $R/M$, (iv) sensibilité au rayon supposé pour une NS de $1.4\,M_\odot$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_astrophysical_validation.pdf}
+  \caption{Validation astrophysique (objets réels).}
+  \label{fig:fig_astrophysical_validation}
+\end{figure}
+
+\medskip
+
+\subsection*{Comparaison aux prédictions analytiques (BY)}
+Comparaison directe aux prédictions analytiques de Brown–York en régime Schwarzschild, avec contrôles d’ordre d’erreur.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{fig_theoretical_comparison.pdf}
+  \caption{Comparaison aux prédictions analytiques (BY).}
+  \label{fig:fig_theoretical_comparison}
+\end{figure}
+
+\medskip
+
+\section{Synthèse}
+Les figures ci-dessus montrent la convergence de l'estimateur $E_{BY}(R)$ vers la masse ADM/Komar
+en régime asymptotiquement plat, sa robustesse vis-à-vis de la forme (ellipsoïdes), la cohérence des
+plongements isométriques (Kerr), la compatibilité avec des solutions d'étoiles TOV, ainsi que des tests
+de robustesse sur des géométries anisotropes et des modèles conceptuels de dimensions supplémentaires.
+Enfin, une validation \emph{in situ} sur des objets astrophysiques réels illustre la cohérence d'ordre
+de grandeur et la sensibilité aux hypothèses (rayon des NS).
 
 \end{document}
