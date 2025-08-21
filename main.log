@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 15:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 15:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -426,7 +426,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [1
 
 {/usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<fig_error_vs_radius_improved.pdf, id=33, 441.11093pt x 296.303pt>
+<fig_error_vs_radius_improved.pdf, id=61, 441.11093pt x 296.303pt>
 File: fig_error_vs_radius_improved.pdf Graphic file (type pdf)
 <use fig_error_vs_radius_improved.pdf>
 Package pdftex.def Info: fig_error_vs_radius_improved.pdf  used on input line 5
@@ -440,18 +440,18 @@ Overfull \hbox (12.44025pt too wide) in paragraph at lines 63--64
 ^Seduit l'erreur par rap-port ^^Ra l'approximation
  []
 
-<fig_relerr_vs_aspect_improved.pdf, id=93, 440.23973pt x 295.06801pt>
+<fig_relerr_vs_aspect_improved.pdf, id=121, 440.23973pt x 295.06801pt>
 File: fig_relerr_vs_aspect_improved.pdf Graphic file (type pdf)
 <use fig_relerr_vs_aspect_improved.pdf>
 Package pdftex.def Info: fig_relerr_vs_aspect_improved.pdf  used on input line 
 67.
 (pdftex.def)             Requested size: 341.43307pt x 228.85092pt.
-<fig_ellipsoids_embedding_comparison.pdf, id=94, 859.4365pt x 352.88399pt>
+<fig_ellipsoids_embedding_comparison.pdf, id=122, 859.36058pt x 352.88399pt>
 File: fig_ellipsoids_embedding_comparison.pdf Graphic file (type pdf)
 <use fig_ellipsoids_embedding_comparison.pdf>
 Package pdftex.def Info: fig_ellipsoids_embedding_comparison.pdf  used on input
  line 73.
-(pdftex.def)             Requested size: 341.43307pt x 140.19263pt.
+(pdftex.def)             Requested size: 341.43307pt x 140.2034pt.
 
 
 [3
@@ -463,13 +463,13 @@ Overfull \hbox (11.16562pt too wide) in paragraph at lines 79--80
 r, nous util-isons un mod^^Rele ph^^Senom^^Senologique
  []
 
-<fig_kerr_embedding_refined.pdf, id=218, 454.61781pt x 294.60626pt>
+<fig_kerr_embedding_refined.pdf, id=245, 454.61781pt x 294.60626pt>
 File: fig_kerr_embedding_refined.pdf Graphic file (type pdf)
 <use fig_kerr_embedding_refined.pdf>
 Package pdftex.def Info: fig_kerr_embedding_refined.pdf  used on input line 85.
 
 (pdftex.def)             Requested size: 341.43307pt x 221.26881pt.
-<fig_kerr_multiradius.pdf, id=219, 570.94849pt x 352.2328pt>
+<fig_kerr_multiradius.pdf, id=246, 570.94849pt x 352.2328pt>
 File: fig_kerr_multiradius.pdf Graphic file (type pdf)
 <use fig_kerr_multiradius.pdf>
 Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 91.
@@ -479,7 +479,7 @@ Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 91.
 [4
 
  <./fig_kerr_embedding_refined.pdf> <./fig_kerr_multiradius.pdf>]
-<fig_tov_full.pdf, id=351, 454.87503pt x 294.43187pt>
+<fig_tov_full.pdf, id=377, 454.87503pt x 294.43187pt>
 File: fig_tov_full.pdf Graphic file (type pdf)
 <use fig_tov_full.pdf>
 Package pdftex.def Info: fig_tov_full.pdf  used on input line 103.
@@ -501,18 +501,18 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 109.
 
-<fig_extra_dimension_effect_improved.pdf, id=399, 441.22324pt x 296.0759pt>
+<fig_extra_dimension_effect_improved.pdf, id=425, 441.22324pt x 296.0759pt>
 File: fig_extra_dimension_effect_improved.pdf Graphic file (type pdf)
 <use fig_extra_dimension_effect_improved.pdf>
 Package pdftex.def Info: fig_extra_dimension_effect_improved.pdf  used on input
  line 121.
 (pdftex.def)             Requested size: 341.43307pt x 229.11308pt.
-<fig_torus_anisotropic.pdf, id=400, 424.5544pt x 294.56436pt>
+<fig_torus_anisotropic.pdf, id=426, 424.5544pt x 294.56436pt>
 File: fig_torus_anisotropic.pdf Graphic file (type pdf)
 <use fig_torus_anisotropic.pdf>
 Package pdftex.def Info: fig_torus_anisotropic.pdf  used on input line 127.
 (pdftex.def)             Requested size: 218.51521pt x 151.61018pt.
-<fig_sphere_multishell.pdf, id=401, 425.92876pt x 294.56436pt>
+<fig_sphere_multishell.pdf, id=427, 425.92876pt x 294.56436pt>
 File: fig_sphere_multishell.pdf Graphic file (type pdf)
 <use fig_sphere_multishell.pdf>
 Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 128.
@@ -531,24 +531,14 @@ ig_sphere_multishell.pdf>]
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: C5C6AB26163E0C8658DB74352A43F444;536
-(rerunfilecheck)             After:  88AE422FF94EF920A9996462DAFDA96D;2337.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 88AE422FF94EF920A9996462DAFDA96D;2337.
  ) 
 Here is how much of TeX's memory you used:
- 10491 strings out of 474662
- 160901 string characters out of 5751109
- 572991 words of memory out of 5000000
- 33357 multiletter control sequences out of 15000+600000
+ 10498 strings out of 474662
+ 160988 string characters out of 5751109
+ 573435 words of memory out of 5000000
+ 33364 multiletter control sequences out of 15000+600000
  575234 words of font info for 96 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  75i,11n,79p,541b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -571,10 +561,10 @@ exlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loc
 al/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
 /local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.
 pfb>
-Output written on main.pdf (7 pages, 345888 bytes).
+Output written on main.pdf (7 pages, 348141 bytes).
 PDF statistics:
- 653 PDF objects out of 1000 (max. 8388607)
- 215 compressed objects within 3 object streams
+ 674 PDF objects out of 1000 (max. 8388607)
+ 236 compressed objects within 3 object streams
  44 named destinations out of 1000 (max. 500000)
- 62 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 
