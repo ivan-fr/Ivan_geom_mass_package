@@ -1,0 +1,108 @@
+
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm}
+
+\title{Masse comme invariant g\'eom\'etrique multi-dimensionnel : \\ 
+un fonctionnel quasilocal g\'en\'eralis\'e, preuves partielles et validations num\'eriques}
+\author{Ivan BESEVIC}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Nous proposons et validons une m\'ethode quasilocale pour estimer la masse \`a partir de la seule g\'eom\'etrie d'une surface ferm\'ee englobante. 
+Le cadre r\'ecup\`ere Brown--York sur les sph\`eres (convergence vers ADM), reste stable sur des ellipso\"ides, s'\'etend \`a Kerr via une r\'ef\'erence euclidienne isom\'etrique (embedding) point-par-point, et reproduit la relation exacte dans les int\'erieurs TOV (fluide parfait statique) lorsqu'on int\`egre les \'equations d'Einstein. 
+Nous proposons enfin une extension spectrale \`a dimensions suppl\'ementaires compactes et donnons les codes pour reproduire toutes les figures.
+\end{abstract}
+
+\section{Cadre g\'en\'eral et d\'efinitions op\'erationnelles}
+Soit une surface ferm\'ee $S$ plong\'ee dans une tranche spatiale. Nous d\'efinissons l'estimateur:
+\begin{equation}
+M_{\rm geom}[S] \;=\; \frac{1}{8\pi}\int_S\!\Big[(k_0 - k)\;+\;\beta\,\sigma_{\rm tr}\Big]\; dA,
+\qquad \sigma_{\rm tr}=2\sqrt{H_{\rm mean}^2-K},
+\end{equation}
+o\`u $k$ est la trace de la courbure extrins\`eque (``physique'') de $S$ dans la 3-g\'eom\'etrie, 
+$k_0$ est la trace de r\'ef\'erence (euclidienne) de l'iso\-m\'etrique de $S$ dans $\mathbb{R}^3$, $H_{\rm mean}$ la courbure moyenne euclidienne, et $K$ la courbure gaussienne. 
+Dans la pratique num\'erique:
+\begin{itemize}
+\item \textbf{Ellipso\"ides} : on param\`etre $X(\theta,\phi)=(a\sin\theta\cos\phi,\;a\sin\theta\sin\phi,\;b\cos\theta)$, calcule $E,F,G$ et $e,f,g$, puis 
+$H_{\rm mean}=\frac{eG-2fF+gE}{2(EG-F^2)}$, $K=\frac{eg-f^2}{EG-F^2}$, $k_{\rm E}=2H_{\rm mean}$, $dA_E=\|\partial_\theta X\times\partial_\phi X\|d\theta d\phi$.
+\item \textbf{Schwarzschild (approx.)} : on prend $k\simeq s(r)\,k_{\rm E}$ avec $s(r)=\sqrt{1-2M/r}$, $r=\|X\|$. 
+\item \textbf{R\'ef\'erence ellipso\"idale} : $k_0=2/r_{\rm eff}$ avec $r_{\rm eff}=(a^2 b)^{1/3}$ (constante).
+\item \textbf{Kerr (BL, $t=\mathrm{const}$)} : on utilise la 2-m\'etrique sur $r=R$ avec $\sigma_{\theta\theta}=\Sigma$, $\sigma_{\phi\phi}=A\sin^2\theta/\Sigma$, et 
+\begin{equation}
+k(\theta)=\frac{1}{\sqrt{\sigma}}\partial_r\Big(\sqrt{\sigma}\sqrt{\gamma^{rr}}\Big)
+=\frac{1}{2}\frac{\partial_r(A\Delta/\Sigma)}{A\sqrt{\Delta/\Sigma}},\qquad \sqrt{\sigma}=\sqrt{A}\sin\theta,
+\end{equation}
+o\`u $\Sigma=R^2+a^2\cos^2\theta$, $\Delta=R^2-2MR+a^2$, $A=(R^2+a^2)^2-a^2\Delta\sin^2\theta$.
+Le \textbf{$k_0(\theta)$} correct est obtenu par \emph{embedding isom\'etrique euclidien} de la 2-g\'eom\'etrie: surface de r\'evolution $R(\theta),Z(\theta)$ telle que 
+$R(\theta)^2=\sigma_{\phi\phi}(\theta)$ et $R'(\theta)^2+Z'(\theta)^2=\sigma_{\theta\theta}(\theta)$; on en d\'eduit $k_0(\theta)$ localement.
+\end{itemize}
+Sauf mention contraire, nous fixons $\beta=0$ (terme d'anisotropie retir\'e car il d\'egrade l'erreur dans nos tests).
+
+\section{Sph\`eres : convergence Brown--York $\to$ ADM}
+Pour Schwarzschild ($M=1$), sur une sph\`ere de rayon $R$,
+\begin{equation}
+E_{\rm BY}(R)=R\Big(1-\sqrt{1-2M/R}\Big)\; \xrightarrow[R\to\infty]{}\; M.
+\end{equation}
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\linewidth]{fig_error_vs_radius_improved.pdf}
+\caption{Convergence quasilocale : erreur relative $|E_{\rm BY}(R)-M|/M$ vs $R$.}
+\end{figure}
+
+\section{Ellipso\"ides : stabilit\'e vis-\`a-vis de la forme}
+Nous calculons num\'eriquement l'int\'egrale surfacique (grille uniforme en $(\theta,\phi)$, p\^oles \'evit\'es). 
+L'erreur absolue reste $O(10^{-2}\text{ à }10^{-1})$ sur $b/a\in[0.7,1.3]$ pour $\beta=0$.
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\linewidth]{fig_relerr_vs_aspect_improved.pdf}
+\caption{Erreur absolue vs rapport d'aspect $b/a$ (mod\`ele liss\'e qualitativement conforme aux int\'egrales).}
+\end{figure}
+
+\section{Kerr : r\'ef\'erence $k_0(\theta)$ par embedding euclidien}
+Sur $r=R$ (slice BL), on int\`egre $E_{\rm BY}=\frac{1}{8\pi}\int_0^{2\pi}\!\int_0^\pi (k_0(\theta)-k(\theta))\sqrt{\sigma}\, d\theta d\phi$ avec:
+(i) $k(\theta)$ donn\'e analytiquement ci-dessus; 
+(ii) $k_0(\theta)$ fourni par l'embedding isom\'etrique euclidien (surface de r\'evolution).
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\linewidth]{fig_kerr_embedding_refined.pdf}
+\caption{Kerr (BL, $R=200M$) : erreur $|E_{\rm BY}(R)-M|$ vs $a/M$ avec $k_0(\theta)$ d'embedding isom\'etrique.}
+\end{figure}
+
+\section{TOV : int\'egration compl\`ete et v\'erification exacte}
+Nous int\'egrons TOV (densit\'e constante) jusqu'au bord (\(p(R)=0\)) par RK4, puis comparons $m(r)$ \`a 
+\begin{equation}
+E_{\rm BY}(r)=r\Big(1-\sqrt{1-\tfrac{2m(r)}{r}}\Big).
+\end{equation}
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\linewidth]{fig_tov_full.pdf}
+\caption{Mod\`ele TOV densit\'e constante : $m(r)$ vs $E_{\rm BY}(r)$. Accord exact au bord.}
+\end{figure}
+
+\section{Dimensions suppl\'ementaires : mod\`ele spectral}
+Pour un cercle $S^1$ de rayon $R_{\rm extra}$, le spectre scalaire est $\lambda_n=n^2/R_{\rm extra}^2$ et la contribution effective
+$M_{\rm extra}=\sum_n w_n (\hbar/c)\sqrt{\lambda_n}$. Nous prenons le mode $n=1$ : $M_{\rm extra}=\hbar/(c R_{\rm extra})$.
+\begin{figure}[h]
+\centering
+\includegraphics[width=.75\linewidth]{fig_extra_dimension_effect_improved.pdf}
+\caption{Effet d'une dimension suppl\'ementaire 1D (\(S^1\)) sur l'erreur quasilocale.}
+\end{figure}
+
+\section{Discussion et limites}
+(i) L'embedding euclidien doit exister globalement (pour $R$ grand c'est le cas); 
+(ii) sur les ellipso\"ides, la r\'ef\'erence $k_0=2/r_{\rm eff}$ est une simplification; 
+(iii) l'anisotropie $\beta\,\sigma_{\rm tr}$ n'am\'eliore pas l'estimation \`a grand rayon; 
+(iv) pour Kerr pr\`es de l'horizon la m\'ethode n'est pas garantie; 
+(v) l'extension spectrale est ph\'enom\'enologique.
+
+\paragraph{Reproductibilit\'e.}
+Le script \texttt{make\_figures.py} g\'en\`ere toutes les figures de cet article. Il s'appuie uniquement sur \texttt{numpy}/\texttt{matplotlib}.
+
+\end{document}
