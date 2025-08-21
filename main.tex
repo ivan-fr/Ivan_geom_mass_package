@@ -50,50 +50,55 @@ Pour Schwarzschild ($M=1$), sur une sph\`ere de rayon $R$,
 \begin{equation}
 E_{\rm BY}(R)=R\Big(1-\sqrt{1-2M/R}\Big)\; \xrightarrow[R\to\infty]{}\; M.
 \end{equation}
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_error_vs_radius_improved.pdf}
 \caption{Convergence quasilocale : erreur relative $|E_{\rm BY}(R)-M|/M$ vs $R$.}
 \end{figure}
+\clearpage
 
 \section{Ellipso\"ides : stabilit\'e vis-\`a-vis de la forme}
 Nous calculons num\'eriquement l'int\'egrale surfacique (grille uniforme en $(\theta,\phi)$, p\^oles \'evit\'es). 
 L'erreur absolue reste $O(10^{-2}\text{ à }10^{-1})$ sur $b/a\in[0.7,1.3]$ pour $\beta=0$.
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_relerr_vs_aspect_improved.pdf}
 \caption{Erreur absolue vs rapport d'aspect $b/a$ (mod\`ele liss\'e qualitativement conforme aux int\'egrales).}
 \end{figure}
+\clearpage
 
 \section{Kerr : r\'ef\'erence $k_0(\theta)$ par embedding euclidien}
 Sur $r=R$ (slice BL), on int\`egre $E_{\rm BY}=\frac{1}{8\pi}\int_0^{2\pi}\!\int_0^\pi (k_0(\theta)-k(\theta))\sqrt{\sigma}\, d\theta d\phi$ avec:
 (i) $k(\theta)$ donn\'e analytiquement ci-dessus; 
 (ii) $k_0(\theta)$ fourni par l'embedding isom\'etrique euclidien (surface de r\'evolution).
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_kerr_embedding_refined.pdf}
 \caption{Kerr (BL, $R=200M$) : erreur $|E_{\rm BY}(R)-M|$ vs $a/M$ avec $k_0(\theta)$ d'embedding isom\'etrique.}
 \end{figure}
+\clearpage
 
 \section{TOV : int\'egration compl\`ete et v\'erification exacte}
 Nous int\'egrons TOV (densit\'e constante) jusqu'au bord (\(p(R)=0\)) par RK4, puis comparons $m(r)$ \`a 
 \begin{equation}
 E_{\rm BY}(r)=r\Big(1-\sqrt{1-\tfrac{2m(r)}{r}}\Big).
 \end{equation}
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_tov_full.pdf}
 \caption{Mod\`ele TOV densit\'e constante : $m(r)$ vs $E_{\rm BY}(r)$. Accord exact au bord.}
 \end{figure}
+\clearpage
 
 \section{Dimensions suppl\'ementaires : mod\`ele spectral}
 Pour un cercle $S^1$ de rayon $R_{\rm extra}$, le spectre scalaire est $\lambda_n=n^2/R_{\rm extra}^2$ et la contribution effective
 $M_{\rm extra}=\sum_n w_n (\hbar/c)\sqrt{\lambda_n}$. Nous prenons le mode $n=1$ : $M_{\rm extra}=\hbar/(c R_{\rm extra})$.
-\begin{figure}[h]
+\begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_extra_dimension_effect_improved.pdf}
 \caption{Effet d'une dimension suppl\'ementaire 1D (\(S^1\)) sur l'erreur quasilocale.}
 \end{figure}
+\clearpage
 
 \section{Discussion et limites}
 (i) L'embedding euclidien doit exister globalement (pour $R$ grand c'est le cas); 
