@@ -33,7 +33,7 @@ Dans la pratique num\'erique:
 \item \textbf{Ellipso\"ides} : on param\`etre $X(\theta,\phi)=(a\sin\theta\cos\phi,\;a\sin\theta\sin\phi,\;b\cos\theta)$, calcule $E,F,G$ et $e,f,g$, puis 
 $H_{\rm mean}=\frac{eG-2fF+gE}{2(EG-F^2)}$, $K=\frac{eg-f^2}{EG-F^2}$, $k_{\rm E}=2H_{\rm mean}$, $dA_E=\|\partial_\theta X\times\partial_\phi X\|d\theta d\phi$.
 \item \textbf{Schwarzschild (approx.)} : on prend $k\simeq s(r)\,k_{\rm E}$ avec $s(r)=\sqrt{1-2M/r}$, $r=\|X\|$. 
-\item \textbf{R\'ef\'erence ellipso\"idale} : $k_0=2/r_{\rm eff}$ avec $r_{\rm eff}=(a^2 b)^{1/3}$ (constante).
+\item \textbf{R\'ef\'erence ellipso\"idale exacte} : comme pour Kerr, on construit l'embedding euclidien isom\'etrique de la 2-g\'eom\'etrie ellipso\"idale. La m\'etrique induite s'\'ecrit $\sigma_{\theta\theta}(\theta) = a^2\cos^2\theta + b^2\sin^2\theta$, $\sigma_{\phi\phi}(\theta) = a^2\sin^2\theta$, puis on r\'esout $R(\theta)^2 = \sigma_{\phi\phi}(\theta)$ et $R'(\theta)^2 + Z'(\theta)^2 = \sigma_{\theta\theta}(\theta)$ pour obtenir la surface de r\'evolution $(R(\theta), Z(\theta))$ dont on d\'eduit $k_0(\theta)$ point par point.
 \item \textbf{Kerr (BL, $t=\mathrm{const}$)} : on utilise la 2-m\'etrique sur $r=R$ avec $\sigma_{\theta\theta}=\Sigma$, $\sigma_{\phi\phi}=A\sin^2\theta/\Sigma$, et 
 \begin{equation}
 k(\theta)=\frac{1}{\sqrt{\sigma}}\partial_r\Big(\sqrt{\sigma}\sqrt{\gamma^{rr}}\Big)
@@ -71,10 +71,19 @@ L'erreur absolue reste $O(10^{-2}\text{ à }10^{-1})$ sur $b/a\in[0.7,1.3]$ pour
 Sur $r=R$ (slice BL), on int\`egre $E_{\rm BY}=\frac{1}{8\pi}\int_0^{2\pi}\!\int_0^\pi (k_0(\theta)-k(\theta))\sqrt{\sigma}\, d\theta d\phi$ avec:
 (i) $k(\theta)$ donn\'e analytiquement ci-dessus; 
 (ii) $k_0(\theta)$ fourni par l'embedding isom\'etrique euclidien (surface de r\'evolution).
+
+Pour valider la d\'ecroissance de l'erreur avec la distance, nous \'etudions plusieurs rayons $R = 100M, 200M, 500M$ : l'erreur relative d\'ecro\^it clairement avec $R$, confirmant la convergence vers la limite ADM.
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_kerr_embedding_refined.pdf}
 \caption{Kerr (BL, $R=200M$) : erreur $|E_{\rm BY}(R)-M|$ vs $a/M$ avec $k_0(\theta)$ d'embedding isom\'etrique.}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.75\linewidth]{fig_kerr_multiradius.pdf}
+\caption{Kerr : d\'ecroissance de l'erreur avec le rayon. Courbes pour $R = 100M$ (trait plein), $R = 200M$ (tiret\'es), $R = 500M$ (pointill\'es) montrant la convergence vers ADM \`a grand rayon pour diff\'erents spins $a/M$.}
 \end{figure}
 \clearpage
 
@@ -90,22 +99,39 @@ E_{\rm BY}(r)=r\Big(1-\sqrt{1-\tfrac{2m(r)}{r}}\Big).
 \end{figure}
 \clearpage
 
-\section{Dimensions suppl\'ementaires : mod\`ele spectral}
+\section{Dimensions suppl\'ementaires : mod\`eles spectraux \'etendus}
+\subsection{Mod\`ele $S^1$ simple}
 Pour un cercle $S^1$ de rayon $R_{\rm extra}$, le spectre scalaire est $\lambda_n=n^2/R_{\rm extra}^2$ et la contribution effective
 $M_{\rm extra}=\sum_n w_n (\hbar/c)\sqrt{\lambda_n}$. Nous prenons le mode $n=1$ : $M_{\rm extra}=\hbar/(c R_{\rm extra})$.
+
+\subsection{Extension \`a $T^2$ anisotrope et $S^2$ multi-coquilles}
+Pour enrichir la ph\'enom\'enologie, nous consid\'erons : 
+\begin{itemize}
+\item \textbf{Tore anisotrope $T^2$} : avec rayons $R_1 \neq R_2$, le spectre devient $\lambda_{n,m} = n^2/R_1^2 + m^2/R_2^2$. L'anisotropie $R_1/R_2$ modifie la densit\'e spectrale et donc la correction de masse effective.
+\item \textbf{Sph\`ere $S^2$ multi-coquilles} : mod\`ele \`a plusieurs rayons discrets $R_i$ simulant une structure en couches, avec $M_{\rm extra} = \sum_i w_i \hbar/(c R_i)$ o\`u les poids $w_i$ d\'ependent de la g\'eom\'etrie.
+\end{itemize}
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=.75\linewidth]{fig_extra_dimension_effect_improved.pdf}
 \caption{Effet d'une dimension suppl\'ementaire 1D (\(S^1\)) sur l'erreur quasilocale.}
 \end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=.48\linewidth]{fig_torus_anisotropic.pdf}
+\includegraphics[width=.48\linewidth]{fig_sphere_multishell.pdf}
+\caption{Gauche : Effet de l'anisotropie $R_1/R_2$ pour un tore $T^2$ sur l'estimation de masse. Droite : Configuration multi-coquilles $S^2$ avec diff\'erents rayons $R_i$ et leurs contributions relatives.}
+\end{figure}
 \clearpage
 
 \section{Discussion et limites}
 (i) L'embedding euclidien doit exister globalement (pour $R$ grand c'est le cas); 
-(ii) sur les ellipso\"ides, la r\'ef\'erence $k_0=2/r_{\rm eff}$ est une simplification; 
+(ii) l'embedding exact des ellipso\"ides via surface de r\'evolution am\'eliore la pr\'ecision par rapport \`a l'approximation $k_0=2/r_{\rm eff}$; 
 (iii) l'anisotropie $\beta\,\sigma_{\rm tr}$ n'am\'eliore pas l'estimation \`a grand rayon; 
-(iv) pour Kerr pr\`es de l'horizon la m\'ethode n'est pas garantie; 
-(v) l'extension spectrale est ph\'enom\'enologique.
+(iv) pour Kerr, la convergence vers ADM est clairement d\'emontr\'ee sur plusieurs rayons $R = 100M, 200M, 500M$; 
+(v) les extensions spectrales ($T^2$ anisotrope, $S^2$ multi-coquilles) offrent une ph\'enom\'enologie plus riche mais restent mod\`ele-d\'ependantes; 
+(vi) pr\`es des horizons la m\'ethode n\'ecessite des pr\'ecautions suppl\'ementaires.
 
 \paragraph{Reproductibilit\'e.}
 Le script \texttt{make\_figures.py} g\'en\`ere toutes les figures de cet article. Il s'appuie uniquement sur \texttt{numpy}/\texttt{matplotlib}.
