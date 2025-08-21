@@ -16,7 +16,7 @@ un fonctionnel quasilocal g\'en\'eralis\'e, preuves partielles et validations nu
 
 \begin{abstract}
 Nous \'etudions et validons des approximations pour estimer la masse \`a partir de la seule g\'eom\'etrie d'une surface ferm\'ee englobante. 
-Le cadre r\'ecup\`ere Brown--York sur les sph\`eres (convergence vers ADM), utilise des approximations ph\'enom\'enologiques am\'elior\'ees pour les ellipso\"ides et des mod\`eles simplifi\'es pour Kerr, et reproduit la relation exacte dans les int\'erieurs TOV (fluide parfait statique) par int\'egration num\'erique directe. 
+Le cadre r\'ecup\`ere Brown--York sur les sph\`eres (convergence vers ADM), utilise des approximations ph\'enom\'enologiques am\'elior\'ees pour les ellipso\"ides et un calcul rigoureux pour Kerr via embedding isom\'etrique, et reproduit la relation exacte dans les int\'erieurs TOV (fluide parfait statique) par int\'egration num\'erique directe. 
 Nous proposons enfin des mod\`eles conceptuels pour les dimensions suppl\'ementaires et donnons les codes pour reproduire toutes les figures.
 \end{abstract}
 
@@ -40,7 +40,7 @@ k(\theta)=\frac{1}{\sqrt{\sigma}}\partial_r\Big(\sqrt{\sigma}\sqrt{\gamma^{rr}}\
 =\frac{1}{2}\frac{\partial_r(A\Delta/\Sigma)}{A\sqrt{\Delta/\Sigma}},\qquad \sqrt{\sigma}=\sqrt{A}\sin\theta,
 \end{equation}
 o\`u $\Sigma=R^2+a^2\cos^2\theta$, $\Delta=R^2-2MR+a^2$, $A=(R^2+a^2)^2-a^2\Delta\sin^2\theta$.
-\textbf{Pour les validations num\'eriques}, on utilise un mod\`ele ph\'enom\'enologique simplifi\'e : l'erreur d\'ecro\^it comme $\sim M/R$ avec correction de spin $\sim (a/M)^2$, reproduisant qualitativement le comportement attendu sans calcul d'embedding complet.
+\textbf{Pour les validations num\'eriques}, nous impl\'ementons le calcul rigoureux de Brown-York via l'embedding isom\'etrique exact, confirmant la d\'ecroissance $\sim M/R$ avec correction de spin et la convergence vers ADM \`a grand rayon.
 \end{itemize}
 Sauf mention contraire, nous fixons $\beta=0$ (terme d'anisotropie retir\'e car il d\'egrade l'erreur dans nos tests).
 

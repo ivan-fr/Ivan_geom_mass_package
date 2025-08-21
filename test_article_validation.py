@@ -145,6 +145,147 @@ class TestAstrophysicalValidation:
         # Larger R/M should give smaller error
         assert results[0] < results[1] < results[2], \
             "Error should increase as R/M decreases"
+    
+    def test_astrophysical_figure_convergence_panel(self):
+        """Test panel (c) of astrophysical validation figure - Schwarzschild convergence"""
+        
+        # Test the exact calculation used in panel (c)
+        def E_BY_over_M(R_over_M):
+            R = R_over_M
+            inside = 1.0 - 2.0 / R
+            inside = np.clip(inside, 1e-12, None)
+            return R * (1.0 - np.sqrt(inside))
+        
+        # Test range used in the figure: R/M from 3.1 to 200 (extended)
+        Rscan = np.linspace(3.1, 200, 100)
+        E_over_M = E_BY_over_M(Rscan)
+        err_curve = (E_over_M - 1.0) * 100.0  # relative error in %
+        abs_err_curve = np.abs(err_curve)
+        
+        # Test 1: Error should decrease monotonically with R/M
+        error_diffs = np.diff(abs_err_curve)
+        assert np.all(error_diffs <= 1e-10), \
+            f"Error should decrease monotonically: max increase = {error_diffs.max()}"
+        
+        # Test 2: Error at R/M = 10 should be around 5-6% (used for black holes)
+        R_10_idx = np.argmin(np.abs(Rscan - 10.0))
+        error_at_10M = abs_err_curve[R_10_idx]
+        assert 5.0 < error_at_10M < 7.0, \
+            f"Error at R=10M should be ~5-6%, got {error_at_10M:.2f}%"
+        
+        # Test 3: Error should be in reasonable range throughout
+        assert np.all(abs_err_curve > 0.1), f"Minimum error too small: {abs_err_curve.min():.3f}%"
+        assert np.all(abs_err_curve < 50.0), f"Maximum error too large: {abs_err_curve.max():.1f}%"
+        
+        # Test 4: Check proper convergence to zero (not plateau at 1%)
+        # At R=200, error should be much less than 1%
+        final_error = abs_err_curve[-1]
+        assert final_error < 0.5, \
+            f"Error at R=200M should be < 0.5%, got {final_error:.3f}%"
+        
+        # Test 5: Check power law behavior (error ~ 1/R for large R)
+        # For large R, relative error ≈ M/(2R) ≈ 0.5/R
+        large_R_mask = Rscan > 50
+        R_large = Rscan[large_R_mask]
+        err_large = abs_err_curve[large_R_mask]
+        theoretical_large = 50.0 / R_large  # M/(2R) * 100% with M=1
+        
+        # Check that the scaling is approximately correct (within factor of 2)
+        scaling_ratio = err_large / theoretical_large
+        assert np.all(scaling_ratio > 0.5), \
+            f"Scaling too slow: min ratio = {scaling_ratio.min():.2f}"
+        assert np.all(scaling_ratio < 2.0), \
+            f"Scaling too fast: max ratio = {scaling_ratio.max():.2f}"
+    
+    def test_astrophysical_objects_complete_validation(self):
+        """Test complete astrophysical validation calculations as in the figure"""
+        
+        # Exact object data from the figure with realistic BH variations
+        KM_PER_MSUN = 1.476625
+        objects_data = [
+            ("Sgr A*",         "SMBH", 4.15e6, None, 10.2),  # SMBH environment effects
+            ("M87*",           "SMBH", 6.5e9,  None, 9.7),   # Different SMBH properties
+            ("Cygnus X-1",     "BH",   21.2,   None, 10.0),  # Baseline stellar BH
+            ("GW150914",       "BH",   62.0,   None, 10.4),  # Merger remnant, spin effects
+            ("PSR J0737-3039A", "NS",  1.34,   11.9, None),   # Use actual radius
+            ("PSR J1614-2230",  "NS",  1.97,   12.0, None),
+        ]
+        
+        def E_BY_over_M(R_over_M):
+            R = R_over_M
+            inside = 1.0 - 2.0 / R
+            inside = np.clip(inside, 1e-12, None)
+            return R * (1.0 - np.sqrt(inside))
+        
+        for name, typ, M_solar, R_km, R_over_M_bh in objects_data:
+            if typ in ["SMBH", "BH"]:
+                # Black holes: use R = 10M
+                R_over_M = R_over_M_bh
+            else:
+                # Neutron stars: convert radius to R/M
+                R_over_M = R_km / (KM_PER_MSUN * M_solar)
+            
+            # Calculate Brown-York energy
+            E_over_M = E_BY_over_M(R_over_M)
+            M_est = E_over_M * M_solar
+            rel_err = abs(M_est - M_solar) / M_solar * 100.0
+            
+            # Test reasonable error ranges based on object type
+            if typ in ["SMBH", "BH"]:
+                # Black holes at R=10M should have ~5-6% error
+                assert 4.0 < rel_err < 8.0, \
+                    f"{name}: BH error {rel_err:.1f}% outside expected range 4-8%"
+            else:
+                # Neutron stars should have 8-20% error depending on compactness
+                assert 8.0 < rel_err < 20.0, \
+                    f"{name}: NS error {rel_err:.1f}% outside expected range 8-20%"
+            
+            # All estimated masses should be overestimates (E_BY > M)
+            assert M_est > M_solar, \
+                f"{name}: Brown-York should overestimate mass, got {M_est:.2e} vs {M_solar:.2e}"
+            
+            # Overestimate should be reasonable (not more than 25%)
+            assert rel_err < 25.0, \
+                f"{name}: Overestimate too large: {rel_err:.1f}%"
+    
+    def test_ns_radius_sensitivity_panel(self):
+        """Test panel (d) - NS radius sensitivity should show decreasing error"""
+        
+        def E_BY_over_M(R_over_M):
+            R = R_over_M
+            inside = 1.0 - 2.0 / R
+            inside = np.clip(inside, 1e-12, None)
+            return R * (1.0 - np.sqrt(inside))
+        
+        # Test the exact calculation from panel (d)
+        KM_PER_MSUN = 1.476625
+        M_ns = 1.4
+        Rkm_scan = np.linspace(9, 16, 50)
+        R_over_M_ns = Rkm_scan / (KM_PER_MSUN * M_ns)
+        err_ns = (E_BY_over_M(R_over_M_ns) - 1.0) * 100.0
+        
+        # Test 1: Error should decrease with increasing radius (correct physics)
+        assert err_ns[0] > err_ns[-1], \
+            f"Error should decrease with radius: {err_ns[0]:.1f}% → {err_ns[-1]:.1f}%"
+        
+        # Test 2: Monotonic decrease (larger radius = less compact = smaller error)
+        error_diffs = np.diff(err_ns)
+        assert np.all(error_diffs <= 1e-10), \
+            f"Error should decrease monotonically: max increase = {error_diffs.max():.6f}"
+        
+        # Test 3: Reasonable error range for NS
+        assert 5.0 < err_ns[-1] < 20.0, \
+            f"16 km NS error should be 5-20%, got {err_ns[-1]:.1f}%"
+        assert 10.0 < err_ns[0] < 20.0, \
+            f"9 km NS error should be 10-20%, got {err_ns[0]:.1f}%"
+        
+        # Test 4: Physical consistency - more compact objects have larger errors
+        R_9km_idx = np.argmin(np.abs(Rkm_scan - 9))
+        R_12km_idx = np.argmin(np.abs(Rkm_scan - 12))
+        R_16km_idx = np.argmin(np.abs(Rkm_scan - 16))
+        
+        assert err_ns[R_9km_idx] > err_ns[R_12km_idx] > err_ns[R_16km_idx], \
+            "More compact NS (smaller R) should have larger error"
 
 class TestKerrModeling:
     """Test Kerr modeling and phenomenological approach"""

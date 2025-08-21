@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 18:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.23)  21 AUG 2025 18:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -458,12 +458,12 @@ Package pdftex.def Info: fig_ellipsoids_embedding_comparison.pdf  used on input
 
  <./fig_relerr_vs_aspect_improved.pdf> <./fig_ellipsoids_embedding_comparison.p
 df>]
-<fig_kerr_embedding_refined.pdf, id=254, 454.7483pt x 294.57239pt>
+<fig_kerr_embedding_refined.pdf, id=254, 454.61781pt x 294.57239pt>
 File: fig_kerr_embedding_refined.pdf Graphic file (type pdf)
 <use fig_kerr_embedding_refined.pdf>
 Package pdftex.def Info: fig_kerr_embedding_refined.pdf  used on input line 97.
 
-(pdftex.def)             Requested size: 341.43307pt x 221.18045pt.
+(pdftex.def)             Requested size: 341.43307pt x 221.24338pt.
 <fig_kerr_multiradius.pdf, id=255, 570.94849pt x 352.2328pt>
 File: fig_kerr_multiradius.pdf Graphic file (type pdf)
 <use fig_kerr_multiradius.pdf>
@@ -476,7 +476,7 @@ Package pdftex.def Info: fig_kerr_multiradius.pdf  used on input line 103.
  <./fig_kerr_embedding_refined.pdf>]
 
 [5 <./fig_kerr_multiradius.pdf>]
-<fig_tov_full.pdf, id=400, 454.87503pt x 294.43187pt>
+<fig_tov_full.pdf, id=399, 454.87503pt x 294.43187pt>
 File: fig_tov_full.pdf Graphic file (type pdf)
 <use fig_tov_full.pdf>
 Package pdftex.def Info: fig_tov_full.pdf  used on input line 115.
@@ -498,18 +498,18 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 121.
 
-<fig_extra_dimension_effect_improved.pdf, id=448, 441.22324pt x 296.0759pt>
+<fig_extra_dimension_effect_improved.pdf, id=447, 441.22324pt x 296.0759pt>
 File: fig_extra_dimension_effect_improved.pdf Graphic file (type pdf)
 <use fig_extra_dimension_effect_improved.pdf>
 Package pdftex.def Info: fig_extra_dimension_effect_improved.pdf  used on input
  line 133.
 (pdftex.def)             Requested size: 341.43307pt x 229.11308pt.
-<fig_torus_anisotropic.pdf, id=449, 424.5544pt x 294.56436pt>
+<fig_torus_anisotropic.pdf, id=448, 424.5544pt x 294.56436pt>
 File: fig_torus_anisotropic.pdf Graphic file (type pdf)
 <use fig_torus_anisotropic.pdf>
 Package pdftex.def Info: fig_torus_anisotropic.pdf  used on input line 139.
 (pdftex.def)             Requested size: 218.51521pt x 151.61018pt.
-<fig_sphere_multishell.pdf, id=450, 425.92876pt x 294.56436pt>
+<fig_sphere_multishell.pdf, id=449, 425.92876pt x 294.56436pt>
 File: fig_sphere_multishell.pdf Graphic file (type pdf)
 <use fig_sphere_multishell.pdf>
 Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 140.
@@ -521,13 +521,13 @@ Package pdftex.def Info: fig_sphere_multishell.pdf  used on input line 140.
  <./fig_extra_dimension_effect_improved.pdf>]
 
 [8 <./fig_torus_anisotropic.pdf> <./fig_sphere_multishell.pdf>]
-<fig_astrophysical_validation.pdf, id=595, 860.31018pt x 714.43916pt>
+<fig_astrophysical_validation.pdf, id=594, 860.31018pt x 714.43916pt>
 File: fig_astrophysical_validation.pdf Graphic file (type pdf)
 <use fig_astrophysical_validation.pdf>
 Package pdftex.def Info: fig_astrophysical_validation.pdf  used on input line 1
 54.
 (pdftex.def)             Requested size: 455.24411pt x 378.06227pt.
-<fig_theoretical_comparison.pdf, id=596, 859.78906pt x 353.8919pt>
+<fig_theoretical_comparison.pdf, id=595, 859.78906pt x 353.8919pt>
 File: fig_theoretical_comparison.pdf Graphic file (type pdf)
 <use fig_theoretical_comparison.pdf>
 Package pdftex.def Info: fig_theoretical_comparison.pdf  used on input line 164
@@ -577,9 +577,9 @@ al/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
 /local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.
 pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/symbol
 s/msbm10.pfb>
-Output written on main.pdf (11 pages, 415124 bytes).
+Output written on main.pdf (11 pages, 415150 bytes).
 PDF statistics:
- 855 PDF objects out of 1000 (max. 8388607)
+ 854 PDF objects out of 1000 (max. 8388607)
  282 compressed objects within 3 object streams
  54 named destinations out of 1000 (max. 500000)
  144 words of extra memory for PDF output out of 10000 (max. 10000000)
