@@ -552,7 +552,8 @@ def fig_astrophysical_validation():
         ("Sgr A*",     "SMBH", 4.15e6, None),
         ("M87*",       "SMBH", 6.5e9,  None),
         ("Cygnus X-1", "BH",   21.2,   None),
-        ("PSR J0737-3039", "NS", 1.34,  15.0),
+        ("GW150914",   "BH",   62.0,   None),
+        ("PSR J0737-3039A", "NS", 1.34,  11.9),
         ("PSR J1614-2230", "NS", 1.97,  12.0),
     ]
 
@@ -589,54 +590,67 @@ def fig_astrophysical_validation():
     ax1, ax2, ax3, ax4 = axes.ravel()
 
     # 1) Estimated vs true mass
-    ax1.scatter(M_solar, M_est, s=80, alpha=0.8, label="Objets compacts")
+    colors = ['red', 'orange', 'blue', 'cyan', 'green', 'purple']
+    for i, (typ, color) in enumerate(zip(types, colors)):
+        ax1.scatter(M_solar[i], M_est[i], s=100, alpha=0.8, c=color, label=names[i] if i < 3 else None)
+    
     maxm = max(M_solar.max(), M_est.max())
     minm = max(min(M_solar.min(), M_est.min()), 1e-6)
-    ax1.plot([minm, maxm], [minm, maxm], linestyle='--', linewidth=1)
-    ax1.set_xlim(minm, maxm)
-    ax1.set_ylim(minm, maxm)
-    ax1.set_xlabel('Masse vraie (M$_\odot$)')
-    ax1.set_ylabel('Masse estimée (M$_\odot$)')
+    ax1.plot([minm, maxm], [minm, maxm], 'k--', linewidth=1, alpha=0.5, label='Ligne parfaite')
+    ax1.set_xlim(minm*0.5, maxm*2)
+    ax1.set_ylim(minm*0.5, maxm*2)
+    ax1.set_xlabel('Masse vraie (M$_\\odot$)')
+    ax1.set_ylabel('Masse estimée $E_{BY}(R)$ (M$_\\odot$)')
     if np.all(M_solar > 0) and np.all(M_est > 0):
         ax1.set_xscale('log')
         ax1.set_yscale('log')
-    ax1.set_title('Validation astrophysique: $E_{BY}(R)$ vs $M$')
-    for i, name in enumerate(names):
-        ax1.annotate(name, (M_solar[i], M_est[i]), fontsize=8, xytext=(5,5), textcoords='offset points')
+    ax1.set_title('(a) Validation astrophysique: $E_{BY}(R)$ vs $M$')
     ax1.grid(True, alpha=0.3)
+    ax1.legend()
 
     # 2) Relative error by object
     x = np.arange(len(names))
-    ax2.bar(x, rel_err, alpha=0.8)
-    ax2.set_xticks(x, names, rotation=30, ha='right')
+    bars = ax2.bar(x, rel_err, alpha=0.8, color=colors[:len(names)])
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(names, rotation=45, ha='right')
     ax2.set_ylabel('Erreur relative (%)')
-    ax2.set_title('Erreur relative sur la masse (évaluée à R/M indiqué)')
+    ax2.set_title('(b) Erreur relative $E_{BY}(R)$ vs masse vraie')
     for i, e in enumerate(rel_err):
-        ax2.text(i, e, f"{e:+.1f}%", ha='center', va='bottom' if e>=0 else 'top', fontsize=8)
+        ax2.text(i, e + (0.5 if e >= 0 else -0.5), f"{e:+.1f}%", 
+                ha='center', va='bottom' if e>=0 else 'top', fontsize=8)
     ax2.grid(True, axis='y', alpha=0.3)
+    ax2.set_ylim(min(rel_err)*1.2, max(rel_err)*1.2)
 
     # 3) BH sanity curve: error vs R/M for a representative BH
     Rscan = np.linspace(3.1, 50, 500)  # R/M from just above 3 to 50
     err_curve = (E_BY_over_M(Rscan) - 1.0) * 100.0
-    ax3.plot(Rscan, err_curve, label='Erreur relative (%)')
-    ax3.axvline(10.0, linestyle='--', linewidth=1)
+    ax3.semilogy(Rscan, np.abs(err_curve), 'b-', linewidth=2, label='$|E_{BY}(R) - M|/M$')
+    ax3.axvline(10.0, linestyle='--', color='red', linewidth=1, alpha=0.7, label='$R = 10M$')
     ax3.set_xlabel('$R/M$')
-    ax3.set_ylabel('Erreur relative (%)')
-    ax3.set_title('Convergence pour trou noir (Schwarzschild)')
+    ax3.set_ylabel('Erreur relative absolue (%)')
+    ax3.set_title('(c) Convergence Schwarzschild: erreur vs $R/M$')
     ax3.grid(True, alpha=0.3)
     ax3.legend()
+    ax3.set_ylim(1e-3, 10)
 
     # 4) NS sensitivity: error vs assumed radius for a 1.4 Msun NS
     M_ns = 1.4
     Rkm_scan = np.linspace(9, 16, 200)  # km
     R_over_M_ns = Rkm_scan / (KM_PER_MSUN * M_ns)
     err_ns = (E_BY_over_M(R_over_M_ns) - 1.0) * 100.0
-    ax4.plot(Rkm_scan, err_ns, label='Erreur relative (%)')
+    ax4.plot(Rkm_scan, err_ns, 'g-', linewidth=2, label='NS 1.4 M$_\\odot$')
+    
+    # Add typical NS radius range
+    ax4.axvspan(10, 14, alpha=0.2, color='gray', label='Gamme typique')
+    ax4.axvline(11.9, linestyle=':', color='red', alpha=0.7, label='PSR J0737-3039A')
+    ax4.axvline(12.0, linestyle=':', color='purple', alpha=0.7, label='PSR J1614-2230')
+    
     ax4.set_xlabel('Rayon NS supposé (km)')
     ax4.set_ylabel('Erreur relative (%)')
-    ax4.set_title('Sensibilité au rayon (NS 1.4 M$_\odot$)')
+    ax4.set_title('(d) Sensibilité au rayon: NS 1.4 M$_\\odot$')
     ax4.grid(True, alpha=0.3)
     ax4.legend()
+    ax4.set_ylim(min(err_ns)*1.1, max(err_ns)*1.1)
 
     plt.tight_layout()
     savefig("fig_astrophysical_validation.pdf")
