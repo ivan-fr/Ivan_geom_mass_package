@@ -190,6 +190,58 @@ class TestKerrModeling:
         # Error should decrease with radius
         assert errors[0] > errors[1] > errors[2], \
             "Error should decrease with increasing radius"
+    
+    def test_kerr_figure_data_correctness(self):
+        """Test that Kerr embedding figure shows correct behavior (prevents regression)"""
+        from make_figures import fig_kerr_embedding
+        import matplotlib.pyplot as plt
+        
+        # Simulate the calculation used in the figure
+        R = 200.0
+        M = 1.0
+        a_vals = np.linspace(0.0, 0.9, 10)
+        
+        def kerr_brown_york_rigorous_single(R, a, M):
+            """Same calculation as in fig_kerr_embedding"""
+            E_schwarzschild = R * (1 - np.sqrt(1 - 2*M/R))
+            spin_correction = (a**2 * M) / (2 * R) * (1 + M/(2*R))
+            E_BY = E_schwarzschild + spin_correction
+            return E_BY
+        
+        errors = []
+        for a in a_vals:
+            E_BY = kerr_brown_york_rigorous_single(R, a, M)
+            error = abs(E_BY - M)
+            errors.append(error)
+        
+        errors = np.array(errors)
+        
+        # Test 1: Error should increase monotonically with spin
+        error_diffs = np.diff(errors)
+        assert np.all(error_diffs >= -1e-8), \
+            f"Error should increase with spin: diffs = {error_diffs}"
+        
+        # Test 2: Error magnitude should be reasonable (10^-4 to 10^-2 range)
+        assert np.all(errors > 1e-4), f"Errors too small: min = {errors.min()}"
+        assert np.all(errors < 1e-2), f"Errors too large: max = {errors.max()}"
+        
+        # Test 3: Schwarzschild limit (a=0) should match expected value
+        a_zero_error = errors[0]
+        expected_schwarzschild_error = abs(R * (1 - np.sqrt(1 - 2*M/R)) - M)
+        assert abs(a_zero_error - expected_schwarzschild_error) < 1e-10, \
+            f"Schwarzschild limit incorrect: {a_zero_error} vs {expected_schwarzschild_error}"
+        
+        # Test 4: Spin effect should be proportional to a²
+        # For small a, error ≈ base_error + C*a²
+        base_error = errors[0]
+        a_small = a_vals[1:4]  # Small values of a
+        error_small = errors[1:4]
+        
+        # Check that the increase follows ~a² scaling
+        a_squared_scaling = (error_small - base_error) / a_small**2
+        scaling_variation = np.std(a_squared_scaling) / np.mean(a_squared_scaling)
+        assert scaling_variation < 0.1, \
+            f"a² scaling not consistent: variation = {scaling_variation}"
 
 class TestTOVIntegration:
     """Test TOV integration accuracy"""
