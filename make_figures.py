@@ -396,7 +396,7 @@ def fig_kerr_multiradius(M=1.0):
     a_theory = np.linspace(0.1, 0.9, 5)
     for i, R in enumerate(R_vals):
         theory_line = M/R * (1 + 0.2*a_theory**2)  # Expected scaling for each radius
-        plt.semilogy(a_theory, theory_line, ':', color=colors[i], alpha=0.4, linewidth=1)
+        plt.semilogy(a_theory, theory_line, ':', color=colors[i], alpha=0.4, linewidth=5)
     
     # Add general theory label
     plt.semilogy(a_theory, M/200 * (1 + 0.2*a_theory**2), 'k:', alpha=0.8, 
